@@ -1,5 +1,4 @@
 import express from 'express';
-import db from '../db/db';
 import todoController from '../controllers/todoController.js';
 
 const router = express.Router();
