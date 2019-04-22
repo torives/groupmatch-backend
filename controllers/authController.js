@@ -15,7 +15,9 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 class AuthController {
+    //TODO: validate request body
     handleGoogleAuthCode(req, res) {
+        console.log(req.body)
         oauth2Client.getToken(req.body.token)
             .then(tokenResponse => {
                 console.log(tokenResponse)
@@ -31,6 +33,10 @@ class AuthController {
                     message: error.response.data.error_description
                 });
             });
+    }
+
+    handleGoogleOauthCallback(req, res) {
+        console.log(req)
     }
 }
 
