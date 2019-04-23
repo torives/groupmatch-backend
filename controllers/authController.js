@@ -19,11 +19,14 @@ class AuthController {
     handleGoogleAuthCode(req, res) {
         console.log(req.body)
         oauth2Client.getToken(req.body.token)
-            .then(tokenResponse => {
-                console.log(tokenResponse)
+            .then(authorizationTokenResponse => {
+                console.log(authorizationTokenResponse)
+                const { tokens } = authorizationTokenResponse
+                oauth2Client.credentials = tokens
+
                 return res.status(200).send({
                     success: "true",
-                    message: tokenResponse.tokens
+                    message: authorizationTokenResponse.tokens
                 });
             })
             .catch(error => {
