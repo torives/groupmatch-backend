@@ -12,10 +12,18 @@ class UserController {
     createUser(req, res) {
         let newUser = req.body;
         console.log(newUser);
-        
-        return res.status(500).send({
-            success: "false",
-            message: "not implemented"
+
+        let createPromise = db.collection("users").doc(newUser.uid).set(newUser);
+        createPromise.then( result => {
+            return res.status(201).send({
+                success: "true",
+                message: "User created successfully"
+            });
+        }).catch( error => {
+            return res.status(500).send({
+                success: "false",
+                message: "Failed to create user"
+            });
         });
     }
 
@@ -41,8 +49,6 @@ class UserController {
             message: "not implemented"
         });
     }
-
-    
 }
 const userController = new UserController();
 export default userController;
