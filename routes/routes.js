@@ -1,7 +1,7 @@
 import express from 'express';
-import todoController from '../controllers/todoController.js';
-import authController from "../controllers/authController.js"
-import userController from "../controllers/userController.js"
+import todoController from '../controllers/TodoController.js';
+import authController from "../controllers/AuthController.js"
+import userController from "../controllers/UserController.js"
 
 const router = express.Router();
 
