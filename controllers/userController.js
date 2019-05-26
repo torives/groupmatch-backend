@@ -15,6 +15,9 @@ class UserController {
     }
     
     updateUser(req, res) {
+        let userId = req.params.id;
+        console.log(userId);
+        
         return res.status(500).send({
             success: "false",
             message: "not implemented"
