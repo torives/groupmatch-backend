@@ -1,3 +1,11 @@
+const firebaseAdmin = require("firebase-admin");
+const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
+
+firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert(serviceAccount),
+    databaseURL: "https://groupmatch-f14e4.firebaseio.com"
+});
+
 class UserController {
     createUser(req, res) {
         return res.status(500).send({
