@@ -13,13 +13,29 @@ class UserController {
         let newUser = req.body;
         console.log(newUser);
 
-        let createPromise = db.collection("users").doc(newUser.uid).set(newUser);
-        createPromise.then( result => {
-            return res.status(201).send({
-                success: "true",
-                message: "User created successfully"
-            });
-        }).catch( error => {
+        let usersCollection = db.collection("users");
+        let getUser = usersCollection.doc(newUser.uid).get();
+        getUser.then(user => {
+            if (user.exists) {
+                return res.status(400).send({
+                    success: "false",
+                    message: "User already exists"
+                });
+            } else {
+                let createUser = usersCollection.doc(newUser.uid).set(newUser);
+                createUser.then(result => {
+                    return res.status(201).send({
+                        success: "true",
+                        message: "User created successfully"
+                    });
+                }).catch(error => {
+                    return res.status(500).send({
+                        success: "false",
+                        message: "Failed to create user"
+                    });
+                });
+            }
+        }).catch(error => {
             return res.status(500).send({
                 success: "false",
                 message: "Failed to create user"
