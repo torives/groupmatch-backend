@@ -30,7 +30,7 @@ class UserController {
                         });
                     }).catch(error => {
                         console.log(error);
-                        
+
                         return res.status(500).send({
                             success: "false",
                             message: "Failed to create user"
@@ -47,7 +47,7 @@ class UserController {
             });
         } catch (error) {
             console.log(error);
-            
+
             return res.status(500).send({
                 success: "false",
                 message: "Failed to create user"
@@ -57,24 +57,43 @@ class UserController {
 
     updateUser(req, res) {
         let userId = req.params.id;
-        console.log(userId);
+        let userData = req.body;
+        let usersCollection = db.collection("users");
 
-        let userRef = db.collection("users").doc(userId);
-        var getUser = userRef.get()
-            .then(user => {
-                if (!user.exists) {
-                    console.log('No such document!');
-                } else {
-                    console.log('Document data:', user.data());
-                }
-            })
-            .catch(err => {
-                console.log('Error getting user', err);
+        var getUser = usersCollection.doc(userId).get();
+        getUser.then(user => {
+            if (!user.exists) {
+                console.log(`Failed to update user. There's no user with id ${userId}`);
+                
+                return res.status(400).send({
+                    success: "false",
+                    message: `User with id ${userId} does not exist`
+                });
+            } else {
+                let updateUser = user.ref.set(userData, { merge: true });
+                updateUser.then(result => {
+                    console.log(`Updated user with id ${userId}`);
+                    
+                    return res.status(200).send({
+                        success: "true",
+                        message: `Updated user with id ${userId}`
+                    });
+                }).catch(error => {
+                    console.log(`Failed to update user with id ${userId}`, error);
+
+                    return res.status(500).send({
+                        success: "false",
+                        message: `Failed to update user with id ${userId}`
+                    });
+                })
+            }
+        }).catch(error => {
+            console.log(`Failed to update user with id ${userId}`, error);
+
+            return res.status(500).send({
+                success: "false",
+                message: `Failed to update user with id ${userId}`
             });
-
-        return res.status(500).send({
-            success: "false",
-            message: "not implemented"
         });
     }
 }
