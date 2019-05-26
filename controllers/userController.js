@@ -10,6 +10,9 @@ const db = firebaseAdmin.firestore();
 
 class UserController {
     createUser(req, res) {
+        let newUser = req.body;
+        console.log(newUser);
+        
         return res.status(500).send({
             success: "false",
             message: "not implemented"
@@ -38,6 +41,8 @@ class UserController {
             message: "not implemented"
         });
     }
+
+    
 }
 const userController = new UserController();
 export default userController;
