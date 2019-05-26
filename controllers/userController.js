@@ -9,38 +9,50 @@ firebaseAdmin.initializeApp({
 const db = firebaseAdmin.firestore();
 
 class UserController {
-    createUser(req, res) {
-        let newUser = req.body;
-        console.log(newUser);
 
-        let usersCollection = db.collection("users");
-        let getUser = usersCollection.doc(newUser.uid).get();
-        getUser.then(user => {
-            if (user.exists) {
-                return res.status(400).send({
-                    success: "false",
-                    message: "User already exists"
-                });
-            } else {
-                let createUser = usersCollection.doc(newUser.uid).set(newUser);
-                createUser.then(result => {
-                    return res.status(201).send({
-                        success: "true",
-                        message: "User created successfully"
-                    });
-                }).catch(error => {
-                    return res.status(500).send({
+    createUser(req, res) {
+        try {
+            let newUser = req.body;
+            let usersCollection = db.collection("users");
+            let getUser = usersCollection.doc(newUser.uid).get();
+            getUser.then(user => {
+                if (user.exists) {
+                    return res.status(400).send({
                         success: "false",
-                        message: "Failed to create user"
+                        message: `User with id ${newUser.uid} already exists`
                     });
+                } else {
+                    let createUser = usersCollection.doc(newUser.uid).set(newUser);
+                    createUser.then(result => {
+                        return res.status(201).send({
+                            success: "true",
+                            message: "User created successfully"
+                        });
+                    }).catch(error => {
+                        console.log(error);
+                        
+                        return res.status(500).send({
+                            success: "false",
+                            message: "Failed to create user"
+                        });
+                    });
+                }
+            }).catch(error => {
+                console.log(error);
+
+                return res.status(500).send({
+                    success: "false",
+                    message: "Failed to create user"
                 });
-            }
-        }).catch(error => {
+            });
+        } catch (error) {
+            console.log(error);
+            
             return res.status(500).send({
                 success: "false",
                 message: "Failed to create user"
             });
-        });
+        }
     }
 
     updateUser(req, res) {
