@@ -1,6 +1,6 @@
 
-const { check, validationResult } = require('express-validator/check');
-const firebaseAdmin = require("firebase-admin");
+import validationResult from 'express-validator/check/validation-result';
+import firebaseAdmin from "firebase-admin";
 const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
 
 firebaseAdmin.initializeApp({

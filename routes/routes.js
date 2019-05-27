@@ -1,5 +1,5 @@
 import express from 'express';
-const { check, validationResult } = require('express-validator/check');
+const { check } = require('express-validator/check');
 import todoController from '../controllers/TodoController.js';
 import authController from "../controllers/AuthController.js"
 import userController from "../controllers/UserController.js"
