@@ -1,3 +1,5 @@
+
+const { check, validationResult } = require('express-validator/check');
 const firebaseAdmin = require("firebase-admin");
 const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
 
@@ -11,6 +13,13 @@ const db = firebaseAdmin.firestore();
 class UserController {
 
     createUser(req, res) {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({ errors: errors.array() });
+        }
+
+
         try {
             let newUser = req.body;
             let usersCollection = db.collection("users");
