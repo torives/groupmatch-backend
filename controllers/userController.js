@@ -1,5 +1,4 @@
-
-import validationResult from 'express-validator/check/validation-result';
+const { check, validationResult } = require('express-validator/check');
 import firebaseAdmin from "firebase-admin";
 const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
 
@@ -16,7 +15,7 @@ class UserController {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.status(422).json({ errors: errors.array() });
+            return res.status(422).json({ errors: errors.array() });
         }
 
 
@@ -73,7 +72,7 @@ class UserController {
         getUser.then(user => {
             if (!user.exists) {
                 console.log(`Failed to update user. There's no user with id ${userId}`);
-                
+
                 return res.status(400).send({
                     success: "false",
                     message: `User with id ${userId} does not exist`
@@ -82,7 +81,7 @@ class UserController {
                 let updateUser = user.ref.set(userData, { merge: true });
                 updateUser.then(result => {
                     console.log(`Updated user with id ${userId}`);
-                    
+
                     return res.status(200).send({
                         success: "true",
                         message: `Updated user with id ${userId}`
@@ -104,6 +103,21 @@ class UserController {
                 message: `Failed to update user with id ${userId}`
             });
         });
+    }
+
+    generateCreateUserRequestValidator() {
+        return [
+            check("name").exists(),
+            check("email").exists().isEmail(),
+            check("uid").exists().isString(),
+            check("profileImage").isURL()
+        ]
+    }
+
+    generateUpdateUserRequestValidator() {
+        return [
+        
+        ]
     }
 }
 const userController = new UserController();
