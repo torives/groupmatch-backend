@@ -13,10 +13,10 @@ router.post('/api/v1/auth/token', authController.handleGoogleAuthCode);
 router.get('/api/v1/auth/callback', authController.handleGoogleOauthCallback);
 
 router.post('/api/v1/user',
-    userController.generateCreateUserRequestValidator(),
+    userController.validate('createUser'),
     userController.createUser);
 router.put('/api/v1/user/:id',
-    userController.generateUpdateUserRequestValidator(),
+    userController.validate('updateUser'),
     userController.updateUser);
 
 export default router;

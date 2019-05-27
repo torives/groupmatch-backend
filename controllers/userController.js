@@ -1,4 +1,4 @@
-const { check, validationResult } = require('express-validator/check');
+const { body, check, validationResult } = require('express-validator/check');
 import firebaseAdmin from "firebase-admin";
 const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
 
@@ -15,8 +15,8 @@ class UserController {
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).send({ 
-                errors: errors.array() 
+            return res.status(422).send({
+                errors: errors.array()
             });
         }
 
@@ -68,8 +68,8 @@ class UserController {
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).send({ 
-                errors: errors.array() 
+            return res.status(422).send({
+                errors: errors.array()
             });
         }
 
@@ -115,19 +115,22 @@ class UserController {
         });
     }
 
-    generateCreateUserRequestValidator() {
-        return [
-            check("name").exists(),
-            check("email").exists().isEmail(),
-            check("uid").exists().isString(),
-            check("profileImage").isURL()
-        ]
-    }
-
-    generateUpdateUserRequestValidator() {
-        return [
-            check("id").isLength({ min: 5 })
-        ]
+    validate(method) {
+        switch (method) {
+            case 'createUser': {
+                return [
+                    body("name").exists(),
+                    body("email").exists().isEmail(),
+                    body("uid").exists().isString(),
+                    body("profileImage").optional().isURL()
+                ]
+            }
+            case 'updateUser': {
+                return [
+                    check("id").isLength({ min: 5 })
+                ]
+            }
+        }
     }
 }
 
