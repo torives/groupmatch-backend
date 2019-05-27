@@ -1,4 +1,4 @@
-const { body, check, validationResult } = require('express-validator/check');
+const { body, validationResult } = require('express-validator/check');
 import firebaseAdmin from "firebase-admin";
 const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
 
@@ -73,7 +73,6 @@ class UserController {
             });
         }
 
-
         let userId = req.params.id;
         let userData = req.body;
         let usersCollection = db.collection("users");
@@ -119,15 +118,18 @@ class UserController {
         switch (method) {
             case 'createUser': {
                 return [
-                    body("name").exists(),
-                    body("email").exists().isEmail(),
-                    body("uid").exists().isString(),
+                    body("name", "User must have a nome with at least 3 letters").exists().isLength({ min: 3 }),
+                    body("email", "Invalid email").exists().isEmail(),
+                    body("uid", "User must have a UID").exists(),
                     body("profileImage").optional().isURL()
                 ]
             }
             case 'updateUser': {
                 return [
-                    check("id").isLength({ min: 5 })
+                    body("name").optional().isLength({ min: 3 }),
+                    body("email", "Invalid operation. E-mail change is not supported").not().exists(),
+                    body("uid", "Invalid operation. You cannot alter an user's UID").not().exists(),
+                    body("profileImage").optional().isURL()
                 ]
             }
         }
