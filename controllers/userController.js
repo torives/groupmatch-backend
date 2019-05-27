@@ -13,11 +13,12 @@ class UserController {
 
     createUser(req, res) {
 
-        const errors = validationResult(req);
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return res.status(422).send({ 
+                errors: errors.array() 
+            });
         }
-
 
         try {
             let newUser = req.body;
@@ -64,6 +65,15 @@ class UserController {
     }
 
     updateUser(req, res) {
+
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).send({ 
+                errors: errors.array() 
+            });
+        }
+
+
         let userId = req.params.id;
         let userData = req.body;
         let usersCollection = db.collection("users");
@@ -116,9 +126,10 @@ class UserController {
 
     generateUpdateUserRequestValidator() {
         return [
-        
+            check("id").isLength({ min: 5 })
         ]
     }
 }
+
 const userController = new UserController();
 export default userController;
