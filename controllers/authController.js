@@ -18,20 +18,23 @@ const { body, validationResult } = require('express-validator/check');
 
 class AuthController {
     exchangeAuthCode(req, res) {
-        
         console.log(req.body)
+        
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({
                 errors: errors.array()
             });
         }
-        
-        oauth2Client.getToken(req.body.token)
+
+        let authToken = req.body.token;
+        oauth2Client.getToken(authToken)
             .then(response => {
                 const { tokens } = response
                 oauth2Client.credentials = tokens
                 console.log(tokens)
+
+                storeTokens(tokens.access_token, tokens.refresh_token);
 
                 return res.status(200).send({
                     success: "true",
@@ -61,6 +64,10 @@ class AuthController {
             }
         }
     }
+}
+
+function storeTokens(accessToken, refreshToken) {
+
 }
 
 const authController = new AuthController();
