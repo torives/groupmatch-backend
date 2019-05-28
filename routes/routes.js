@@ -9,7 +9,9 @@ const router = express.Router();
 router.get('/api/v1/todos', todoController.getAllTodos);
 router.post('/api/v1/todos', todoController.createTodo);
 
-router.post('/api/v1/auth/token', authController.handleGoogleAuthCode);
+router.post('/api/v1/auth/token', 
+    authController.exchangeAuthCode
+);
 router.get('/api/v1/auth/callback', authController.handleGoogleOauthCallback);
 
 router.post('/api/v1/user',

@@ -16,7 +16,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 class AuthController {
     //TODO: validate request body
-    handleGoogleAuthCode(req, res) {
+    exchangeAuthCode(req, res) {
         console.log(req.body)
         oauth2Client.getToken(req.body.token)
             .then(authorizationTokenResponse => {
