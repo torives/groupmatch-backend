@@ -10,6 +10,7 @@ router.get('/api/v1/todos', todoController.getAllTodos);
 router.post('/api/v1/todos', todoController.createTodo);
 
 router.post('/api/v1/auth/token', 
+    authController.validate("exchangeAuthCode"),
     authController.exchangeAuthCode
 );
 router.get('/api/v1/auth/callback', authController.handleGoogleOauthCallback);

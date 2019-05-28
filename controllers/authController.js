@@ -14,19 +14,28 @@ const oauth2Client = new google.auth.OAuth2(
     keys.redirect_uris[0]
 );
 
+const { body, validationResult } = require('express-validator/check');
+
 class AuthController {
-    //TODO: validate request body
     exchangeAuthCode(req, res) {
+        
         console.log(req.body)
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).send({
+                errors: errors.array()
+            });
+        }
+        
         oauth2Client.getToken(req.body.token)
-            .then(authorizationTokenResponse => {
-                console.log(authorizationTokenResponse)
-                const { tokens } = authorizationTokenResponse
+            .then(response => {
+                const { tokens } = response
                 oauth2Client.credentials = tokens
+                console.log(tokens)
 
                 return res.status(200).send({
                     success: "true",
-                    message: authorizationTokenResponse.tokens
+                    message: response.tokens
                 });
             })
             .catch(error => {
@@ -40,6 +49,17 @@ class AuthController {
 
     handleGoogleOauthCallback(req, res) {
         console.log(req)
+    }
+
+    validate(method) {
+        switch (method) {
+            case 'exchangeAuthCode': {
+                return [
+                    body("token").not().isEmpty(),
+                    body("uid").not().isEmpty()
+                ]
+            }
+        }
     }
 }
 
