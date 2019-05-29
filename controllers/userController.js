@@ -99,12 +99,24 @@ class UserController {
                 return [
                     body().custom(body => {
                         let validProperties = ["tokens", "profileImage"];
+                        var isValid = true;
                         Object.keys(body).forEach(key => {
-                            if(!validProperties.includes(key)) {
-                                return false;
+                            if (!validProperties.includes(key)) {
+                                isValid = false;
                             }
                         });
+                        return isValid;
                     }).withMessage("Invalid user property"),
+                    body("tokens").custom(tokens => {
+                        let validTokens = ["access", "refresh", "device"];
+                        var isValid = true;
+                        Object.keys(tokens).forEach(token => {
+                            if (!validTokens.includes(token)) {
+                                isValid = false;
+                            }
+                        });
+                        return isValid;
+                    }).withMessage("Invalid token type"),
                     body("name").optional().isLength({ min: 3 }),
                     body("email", "Invalid operation. E-mail change is not supported").not().exists(),
                     body("uid", "Invalid operation. You cannot alter an user's UID").not().exists(),
