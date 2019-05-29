@@ -97,6 +97,14 @@ class UserController {
             }
             case 'updateUser': {
                 return [
+                    body().custom(body => {
+                        let validProperties = ["tokens", "profileImage"];
+                        Object.keys(body).forEach(key => {
+                            if(!validProperties.includes(key)) {
+                                return false;
+                            }
+                        });
+                    }).withMessage("Invalid user property"),
                     body("name").optional().isLength({ min: 3 }),
                     body("email", "Invalid operation. E-mail change is not supported").not().exists(),
                     body("uid", "Invalid operation. You cannot alter an user's UID").not().exists(),
