@@ -1,6 +1,6 @@
 import db from "../db/firestore-db";
 
-class UpdateUser {
+module.exports = class UpdateUser {
     update(userId, userData) {
         return new Promise(function (resolve, reject) {
             let usersCollection = db.collection("users");
@@ -42,8 +42,4 @@ class UpdateUser {
             });
         });
     }
-}
-
-module.exports.UpdateUser = {
-    UpdateUser: UpdateUser
 }

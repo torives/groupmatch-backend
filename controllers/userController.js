@@ -1,5 +1,8 @@
 const { body, validationResult } = require('express-validator/check');
 import db from '../db/firestore-db';
+import UpdateUser from "../actions/UpdateUser";
+
+let updateUser = new UpdateUser();
 
 class UserController {
 
@@ -67,43 +70,19 @@ class UserController {
 
         let userId = req.params.id;
         let userData = req.body;
-        let usersCollection = db.collection("users");
-
-        var getUser = usersCollection.doc(userId).get();
-        getUser.then(user => {
-            if (!user.exists) {
-                console.log(`Failed to update user. There's no user with id ${userId}`);
-
-                return res.status(400).send({
-                    success: "false",
-                    message: `User with id ${userId} does not exist`
+        console.log(`id ${userId}\n${userData}`);
+        updateUser.update(userId, userData)
+            .then(result => {
+                return res.status(result.code).send({
+                    success: true,
+                    message: result.message
                 });
-            } else {
-                let updateUser = user.ref.set(userData, { merge: true });
-                updateUser.then(result => {
-                    console.log(`Updated user with id ${userId}`);
-
-                    return res.status(200).send({
-                        success: "true",
-                        message: `Updated user with id ${userId}`
-                    });
-                }).catch(error => {
-                    console.log(`Failed to update user with id ${userId}`, error);
-
-                    return res.status(500).send({
-                        success: "false",
-                        message: `Failed to update user with id ${userId}`
-                    });
-                })
-            }
-        }).catch(error => {
-            console.log(`Failed to update user with id ${userId}`, error);
-
-            return res.status(500).send({
-                success: "false",
-                message: `Failed to update user with id ${userId}`
+            }).catch(error => {
+                return res.status(error.code).send({
+                    success: false,
+                    message: error.message
+                });
             });
-        });
     }
 
     validate(method) {
