@@ -100,7 +100,7 @@ class UserController {
                     body("name").optional().isLength({ min: 3 }),
                     body("email", "Invalid operation. E-mail change is not supported").not().exists(),
                     body("uid", "Invalid operation. You cannot alter an user's UID").not().exists(),
-                    body("profileImage").optional().isURL()
+                    body("profileImage", "Must be a valid URL").optional().isURL()
                 ]
             }
         }
