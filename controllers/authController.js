@@ -15,11 +15,13 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 const { body, validationResult } = require('express-validator/check');
+import UpdateUser from "../actions/UpdateUser";
+let updateUser = new UpdateUser();
 
 class AuthController {
     exchangeAuthCode(req, res) {
-        console.log(req.body)
-        
+        console.log(req.body);
+
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({
@@ -28,20 +30,33 @@ class AuthController {
         }
 
         let authToken = req.body.token;
+        let userId = req.body.uid;
         oauth2Client.getToken(authToken)
             .then(response => {
-                const { tokens } = response
-                oauth2Client.credentials = tokens
-                console.log(tokens)
+                const { tokens } = response;
+                oauth2Client.credentials = tokens;
 
-                storeTokens(tokens.access_token, tokens.refresh_token);
-
-                return res.status(200).send({
-                    success: "true",
-                    message: response.tokens
-                });
-            })
-            .catch(error => {
+                let userData = {
+                    uid: userId,
+                    tokens: {
+                        access: tokens.access_token,
+                        refresh: tokens.refresh_token
+                    }
+                };
+                console.log(`id ${userId}\n${userData}`);
+                updateUser.update(userId, userData)
+                    .then(result => {
+                        return res.status(result.code).send({
+                            success: true,
+                            message: result.message
+                        });
+                    }).catch(error => {
+                        return res.status(error.code).send({
+                            success: false,
+                            message: error.message
+                        });
+                    })
+            }).catch(error => {
                 console.log(error)
                 return res.status(error.code).send({
                     code: error.code,
@@ -64,10 +79,6 @@ class AuthController {
             }
         }
     }
-}
-
-function storeTokens(accessToken, refreshToken) {
-
 }
 
 const authController = new AuthController();
