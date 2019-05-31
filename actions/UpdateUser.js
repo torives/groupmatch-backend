@@ -3,11 +3,10 @@ import GetUser from "../actions/GetUser";
 const getUser = new GetUser();
 module.exports = class UpdateUser {
     
-    update(userId, userData) {
-        
+    update(userId, userData) {  
         return new Promise(function (resolve, reject) {
         
-            getUser.then(user => {
+            getUser.get(userId).then(user => {
                 let updateUser = user.set(userData, { merge: true });
                 updateUser.then(result => {
                     console.log(`Updated user with id ${userId}`);
