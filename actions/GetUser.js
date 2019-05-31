@@ -1,8 +1,10 @@
 import db from "../db/firestore-db";
 
 module.exports = class GetUser {
+    
     get(userId) {
         return new Promise(function (resolve, reject) {
+            
             let usersCollection = db.collection("users");
             let getUser = usersCollection.doc(userId).get();
             getUser.then(user => {

@@ -1,8 +1,10 @@
-const { body, validationResult } = require('express-validator/check');
-import db from '../db/firestore-db';
 import UpdateUser from "../actions/UpdateUser";
-
+import GetUser from "../actions/GetUser";
+import CreateUser from "../actions/CreateUser";
+const { body, validationResult } = require('express-validator/check');
 let updateUser = new UpdateUser();
+let getUser = new GetUser();
+let createUser = new CreateUser();
 
 class UserController {
 
@@ -15,48 +17,38 @@ class UserController {
             });
         }
 
-        try {
-            let newUser = req.body;
-            let usersCollection = db.collection("users");
-            let getUser = usersCollection.doc(newUser.uid).get();
-            getUser.then(user => {
-                if (user.exists) {
-                    return res.status(400).send({
-                        success: "false",
-                        message: `User with id ${newUser.uid} already exists`
+        let newUser = req.body;
+        getUser.get(newUser.uid).then(user => {
+            return res.status(400).send({
+                success: "false",
+                message: `User with id ${newUser.uid} already exists`
+            });
+        }).catch(error => {
+            if (error.code == 417) {
+                createUser.create(newUser).then(result => {
+                    return res.status(201).send({
+                        success: "true",
+                        message: "User created successfully"
                     });
-                } else {
-                    let createUser = usersCollection.doc(newUser.uid).set(newUser);
-                    createUser.then(result => {
-                        return res.status(201).send({
-                            success: "true",
-                            message: "User created successfully"
-                        });
-                    }).catch(error => {
-                        console.log(error);
+                }).catch(error => {
+                    console.log("Failed to create user");
+                    console.log(error);
 
-                        return res.status(500).send({
-                            success: "false",
-                            message: "Failed to create user"
-                        });
+                    return res.status(500).send({
+                        success: "false",
+                        message: "Failed to create user"
                     });
-                }
-            }).catch(error => {
+                });
+            } else {
+                console.log("Failed to check if user already exists");
                 console.log(error);
 
                 return res.status(500).send({
                     success: "false",
                     message: "Failed to create user"
                 });
-            });
-        } catch (error) {
-            console.log(error);
-
-            return res.status(500).send({
-                success: "false",
-                message: "Failed to create user"
-            });
-        }
+            }
+        });
     }
 
     updateUser(req, res) {
