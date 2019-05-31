@@ -1,21 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { google } = require('googleapis');
-
-const keyPath = path.join(__dirname, '../secrets/oauth2.keys.json');
-let keys = { redirect_uris: [''] };
-if (fs.existsSync(keyPath)) {
-    keys = require(keyPath).web;
-}
-
-const oauth2Client = new google.auth.OAuth2(
-    keys.client_id,
-    keys.client_secret,
-    keys.redirect_uris[0]
-);
-
 const { body, validationResult } = require('express-validator/check');
 import UpdateUser from "../actions/UpdateUser";
+import oauth2Client from "../services/google-oath";
 let updateUser = new UpdateUser();
 
 class AuthController {
@@ -29,13 +14,15 @@ class AuthController {
             });
         }
 
+        //get user. if has access token, do nothing
+
         let authToken = req.body.token;
         let userId = req.body.uid;
         oauth2Client.getToken(authToken)
             .then(response => {
                 const { tokens } = response;
                 oauth2Client.credentials = tokens;
-
+                console.log(tokens);
                 let userData = {
                     uid: userId,
                     tokens: {

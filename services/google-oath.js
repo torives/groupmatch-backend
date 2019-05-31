@@ -1,0 +1,16 @@
+const fs = require('fs');
+const path = require('path');
+const { google } = require('googleapis');
+
+const keyPath = path.join(__dirname, '../secrets/oauth2.keys.json');
+let keys = { redirect_uris: [''] };
+if (fs.existsSync(keyPath)) {
+    keys = require(keyPath).web;
+}
+
+const oauth2Client = new google.auth.OAuth2(
+    keys.client_id,
+    keys.client_secret,
+    keys.redirect_uris[0]
+);
+export default oauth2Client;
