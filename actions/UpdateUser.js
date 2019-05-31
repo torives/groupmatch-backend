@@ -7,7 +7,7 @@ module.exports = class UpdateUser {
         return new Promise(function (resolve, reject) {
         
             getUser.get(userId).then(user => {
-                let updateUser = user.set(userData, { merge: true });
+                let updateUser = user.ref.set(userData, { merge: true });
                 updateUser.then(result => {
                     console.log(`Updated user with id ${userId}`);
 

@@ -8,10 +8,11 @@ module.exports = class GetUser {
             let usersCollection = db.collection("users");
             let getUser = usersCollection.doc(userId).get();
             getUser.then(user => {
-                console.log(user);
                 if (user.exists) {
-                    resolve(user.ref);
+                    console.log("GetUser success");
+                    resolve(user);
                 } else {
+                    console.log("GetUser failed");
                     reject({
                         code: 417,
                         message: `User with id ${userId} does not exist.`
