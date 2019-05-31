@@ -106,8 +106,8 @@ class UserController {
                             }
                         });
                         return isValid;
-                    }).withMessage("Invalid user property"),
-                    body("tokens").custom(tokens => {
+                    }).withMessage("You can't update this property"),
+                    body("tokens").optional().custom(tokens => {
                         let validTokens = ["access", "refresh", "device"];
                         var isValid = true;
                         Object.keys(tokens).forEach(token => {
