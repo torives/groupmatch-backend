@@ -8,7 +8,7 @@ module.exports = class GetUser {
             getUser.then(user => {
                 console.log(user);
                 if (user.exists) {
-                    resolve(user.data);
+                    resolve(user.ref);
                 } else {
                     reject({
                         code: 417,
