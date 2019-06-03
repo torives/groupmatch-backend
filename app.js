@@ -1,6 +1,24 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import router from './routes/routes.js';
+import db from "./db/firestore-db";
+import userCreatedListener from "./db/UserCreatedListener";
+
+
+let usersCollection = db.collection("users");
+usersCollection.onSnapshot(snapshot => {
+  snapshot.docChanges().forEach(change => {
+    if (change.type == "added") {
+      let userData = change.doc.data();
+      console.log(user);
+      userCreatedListener.onUserCreated(change.doc.id, userData.tokens);
+    }
+  });
+});
+
+
+
+
 
 // Set up the express app
 const app = express();
