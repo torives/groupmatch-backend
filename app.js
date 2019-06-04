@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import router from './routes/routes.js';
+import { router } from './routes/routes.js';
 
 // Set up the express app
 const app = express();
@@ -18,16 +18,16 @@ app.listen(PORT, () => {
 });
 
 
-// let admin = require("firebase-admin");
-// let serviceAccount = "firebase-serviceaccount-key.json";
+// const admin = require("firebase-admin");
+// const serviceAccount = "firebase-serviceaccount-key.json";
 
 // admin.initializeApp({
 //     credential: admin.credential.cert(serviceAccount),
 //     databaseURL: "https://groupmatch-f14e4.firebaseio.com"
 // });
 
-// let registrationToken = "dMc9NfpnPzg:APA91bFuXLUHemzR4aw0BJdqRfKoyaMYGzsaqLhp-tFHPWAY_zLGI0DJrm8bAq-UpoSzU1Hp-mQ_N3C9iwaHhUMsONLjepxwPlDO86-r0yQzmHN-ASxYL5QRBVxY4cN6qM0baLg_3b1U";
-// let payload = {
+// const registrationToken = "dMc9NfpnPzg:APA91bFuXLUHemzR4aw0BJdqRfKoyaMYGzsaqLhp-tFHPWAY_zLGI0DJrm8bAq-UpoSzU1Hp-mQ_N3C9iwaHhUMsONLjepxwPlDO86-r0yQzmHN-ASxYL5QRBVxY4cN6qM0baLg_3b1U";
+// const payload = {
 //     notification: {
 //       title: "Account Deposit",
 //       body: "A deposit to your savings account has just cleared."

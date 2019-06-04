@@ -1,31 +1,31 @@
-import ExchangeTokens from "../actions/ExchangeTokens";
-let exchangeTokens = new ExchangeTokens();
-import UpdateUser from "../actions/UpdateUser";
-let updateUser = new UpdateUser();
+import { exchangeTokens } from "../actions/exchange_tokens";
+import { updateUser } from "../actions/update_user";
+
 
 class UserCreatedListener {
-    
-    onUserCreated(userId, tokens) {
-    
-        if (tokens.access.isEmpty && tokens.auth != null) {
-            exchangeTokens.get(userId, tokens.auth).then((accessToken, refreshToken) => {
-                let userData = {
-                    tokens: {
-                        "access": accessToken,
-                        "refresh": refreshToken
-                    }
-                }
-                updateUser.update(userId, userData).then({
 
+    onUserCreated(userId, tokens) {
+
+        if (tokens.access.isEmpty && tokens.auth != null) {
+            exchangeTokens(tokens.auth)
+                .then((accessToken, refreshToken) => {
+                    const userData = {
+                        tokens: {
+                            "access": accessToken,
+                            "refresh": refreshToken
+                        }
+                    }
+                    updateUser(userId, userData)
+                        .then({
+
+                        }).catch(error => {
+
+                        });
                 }).catch(error => {
 
                 });
-            }).catch(error => {
-
-            });
         }
     }
 }
 
-const userCreatedListener = new UserCreatedListener();
-export default userCreatedListener;
+export const userCreatedListener = new UserCreatedListener();

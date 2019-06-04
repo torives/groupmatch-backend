@@ -1,31 +1,29 @@
-import UpdateUser from "../actions/UpdateUser";
-import GetUser from "../actions/GetUser";
-import CreateUser from "../actions/CreateUser";
+import { updateUser } from "../actions/update_user";
+import { getUser } from "../actions/get_user";
+import { createUser } from "../actions/create_user";
 const { body, validationResult } = require('express-validator/check');
-let updateUser = new UpdateUser();
-let getUser = new GetUser();
-let createUser = new CreateUser();
+
 
 class UserController {
 
     createUser(req, res) {
 
-        let errors = validationResult(req);
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({
                 errors: errors.array()
             });
         }
 
-        let newUser = req.body;
-        getUser.get(newUser.uid).then(user => {
+        const newUser = req.body;
+        getUser(newUser.uid).then(user => {
             return res.status(400).send({
                 success: "false",
                 message: `User with id ${newUser.uid} already exists`
             });
         }).catch(error => {
             if (error.code == 417) {
-                createUser.create(newUser).then(result => {
+                createUser(newUser).then(result => {
                     return res.status(201).send({
                         success: "true",
                         message: "User created successfully"
@@ -53,35 +51,34 @@ class UserController {
 
     updateUser(req, res) {
 
-        let errors = validationResult(req);
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({
                 errors: errors.array()
             });
         }
 
-        let userId = req.params.id;
-        let userData = req.body;
+        const userId = req.params.id;
+        const userData = req.body;
         console.log(`id ${userId}\n${userData}`);
-        updateUser.update(userId, userData)
-            .then(result => {
-                return res.status(result.code).send({
-                    success: true,
-                    message: result.message
-                });
-            }).catch(error => {
-                return res.status(error.code).send({
-                    success: false,
-                    message: error.message
-                });
+        updateUser(userId, userData).then(result => {
+            return res.status(result.code).send({
+                success: true,
+                message: result.message
             });
+        }).catch(error => {
+            return res.status(error.code).send({
+                success: false,
+                message: error.message
+            });
+        });
     }
 
     validate(method) {
         switch (method) {
             case 'createUser': {
                 return [
-                    body("name", "User must have a nome with at least 3 letters").exists().isLength({ min: 3 }),
+                    body("name", "User must have a nome with at least 3 constters").exists().isLength({ min: 3 }),
                     body("email", "Invalid email").exists().isEmail(),
                     body("uid", "User must have a UID").exists(),
                     body("profileImage").optional().isURL()
@@ -90,8 +87,8 @@ class UserController {
             case 'updateUser': {
                 return [
                     body().custom(body => {
-                        let validProperties = ["tokens", "profileImage"];
-                        var isValid = true;
+                        const validProperties = ["tokens", "profileImage"];
+                        let isValid = true;
                         Object.keys(body).forEach(key => {
                             if (!validProperties.includes(key)) {
                                 isValid = false;
@@ -100,8 +97,8 @@ class UserController {
                         return isValid;
                     }).withMessage("You can't update this property"),
                     body("tokens").optional().custom(tokens => {
-                        let validTokens = ["access", "refresh", "device"];
-                        var isValid = true;
+                        const validTokens = ["access", "refresh", "device"];
+                        let isValid = true;
                         Object.keys(tokens).forEach(token => {
                             if (!validTokens.includes(token)) {
                                 isValid = false;
@@ -119,5 +116,4 @@ class UserController {
     }
 }
 
-const userController = new UserController();
-export default userController;
+export const userController = new UserController();

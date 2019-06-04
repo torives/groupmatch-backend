@@ -1,15 +1,16 @@
 import express from 'express';
 import todoController from '../controllers/TodoController.js';
-import authController from "../controllers/AuthController.js"
-import userController from "../controllers/UserController.js"
+import { authController } from "../controllers/AuthController.js"
+import { userController } from "../controllers/UserController.js"
 
-const router = express.Router();
+
+export const router = express.Router();
 
 // get all todos
 router.get('/api/v1/todos', todoController.getAllTodos);
 router.post('/api/v1/todos', todoController.createTodo);
 
-router.post('/api/v1/auth/token', 
+router.post('/api/v1/auth/token',
     authController.validate("exchangeAuthCode"),
     authController.exchangeAuthCode
 );
@@ -21,5 +22,3 @@ router.post('/api/v1/user',
 router.put('/api/v1/user/:id',
     userController.validate('updateUser'),
     userController.updateUser);
-
-export default router;
