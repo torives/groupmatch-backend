@@ -2,7 +2,7 @@ import oauth2Client from "../services/google-oath";
 
 module.exports = class ExchangeTokens {
 
-    get(userId, authToken) {
+    get(authToken) {
         return new Promise(function (resolve, reject) {
 
             oauth2Client.getToken(authToken).then(response => {
