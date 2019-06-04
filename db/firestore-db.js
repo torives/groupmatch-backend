@@ -20,7 +20,7 @@ usersCollection.onSnapshot(snapshot => {
      
         if (change.type == "added" && change.doc.createTime.toMillis() > snapshot.readTime.toMillis()) {
             const userData = change.doc.data();
-            console.log(user);
+            console.log(userData);
             userCreatedListener.onUserCreated(change.doc.id, userData.tokens);
         }
     });

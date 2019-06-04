@@ -5,8 +5,8 @@ export function createUser(user) {
     return new Promise(function (resolve, reject) {
 
         let usersCollection = db.collection("users");
-        let createUser = usersCollection.doc(user.uid).set(user);
-        createUser.then(result => {
+        let createUserPromise = usersCollection.doc(user.uid).set(user);
+        createUserPromise.then(result => {
             resolve(true);
         }).catch(error => {
             console.log("Failed to create user.");
@@ -17,6 +17,5 @@ export function createUser(user) {
                 message: `Failed to write user with id ${userId} to the database.`
             })
         });
-
     });
 }
