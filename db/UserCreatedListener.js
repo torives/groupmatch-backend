@@ -3,8 +3,7 @@ import { updateUser } from "../actions/update_user";
 
 
 function canProcessTokens(tokens) {
-    return tokens.access != null &&
-        tokens.access.isEmpty &&
+    return tokens.access == null &&
         tokens.auth != null
 }
 class UserCreatedListener {
