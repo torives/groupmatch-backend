@@ -18,7 +18,7 @@ usersCollection.onSnapshot(snapshot => {
         console.log(`Document Timestamp ${change.doc.createTime.toMillis()}`)
         console.log(snapshot.readTime.toMillis() < change.doc.createTime.toMillis())
      
-        if (change.type == "added" && change.doc.createTime.toMillis() > snapshot.readTime.toMillis()) {
+        if (change.type == "added" && change.doc.createTime.toMillis() >= snapshot.readTime.toMillis()) {
             const userData = change.doc.data();
             console.log(userData);
             userCreatedListener.onUserCreated(change.doc.id, userData.tokens);
