@@ -9,7 +9,7 @@ export function exchangeTokens(authToken) {
             oauth2Client.credentials = tokens;
 
             console.log(tokens);
-            resolve(tokens.access_token, tokens.refresh_token);
+            resolve([tokens.access_token, tokens.refresh_token]);
         }).catch(error => {
             console.log(error)
             reject(error);

@@ -11,7 +11,8 @@ class UserCreatedListener {
     onUserCreated(userId, tokens) {
 
         if (canProcessTokens(tokens)) {
-            exchangeTokens(tokens.auth).then((accessToken, refreshToken) => {
+            exchangeTokens(tokens.auth).then(tokens => {
+                const [ accessToken, refreshToken ] = tokens;
                 console.log(`Success: obtained access: ${accessToken} and refresh: ${refreshToken} tokens for user: ${userId}`)
                 const userData = {
                     tokens: {
