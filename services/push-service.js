@@ -1,11 +1,4 @@
 import admin from "firebase-admin";
-const serviceAccount = "firebase-serviceaccount-key.json";
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://groupmatch-f14e4.firebaseio.com"
-});
-
 
 export function sendMulticast(title, body, deviceTokens) {
     const push = {
