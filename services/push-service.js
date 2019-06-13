@@ -1,4 +1,4 @@
-import { admin } from "firebase-admin";
+import admin from "firebase-admin";
 const serviceAccount = "firebase-serviceaccount-key.json";
 
 admin.initializeApp({
