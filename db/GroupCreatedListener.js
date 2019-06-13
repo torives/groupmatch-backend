@@ -1,3 +1,5 @@
+import { pushService } from "../services/push-service";
+
 class GroupCreatedListener {
 
     onGroupCreated(group) { 
