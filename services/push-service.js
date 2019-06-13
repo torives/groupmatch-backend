@@ -7,9 +7,24 @@ admin.initializeApp({
 });
 
 
-function sendPush(push, deviceTokens) {
-    
+export function sendMulticast(title, body, deviceTokens) {
+    const push = {
+        notification: {
+            title: title,
+            body: body
+        },
+        tokens: deviceTokens,
+    }
+
+    admin.messaging().sendMulticast(push)
+        .then(response => {
+            console.log(response.successCount + ' messages were sent successfully');
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
+
 // const registrationToken = "dMc9NfpnPzg:APA91bFuXLUHemzR4aw0BJdqRfKoyaMYGzsaqLhp-tFHPWAY_zLGI0DJrm8bAq-UpoSzU1Hp-mQ_N3C9iwaHhUMsONLjepxwPlDO86-r0yQzmHN-ASxYL5QRBVxY4cN6qM0baLg_3b1U";
 // const payload = {
 //     notification: {
