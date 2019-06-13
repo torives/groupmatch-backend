@@ -1,13 +1,6 @@
-import firebaseAdmin from "firebase-admin";
+import { firebaseAdmin } from "../services/firebase-service";
 import { userCreatedListener } from "./UserCreatedListener";
 import { groupCreatedListener } from "./GroupCreatedListener";
-const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
-
-
-firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(serviceAccount),
-    databaseURL: "https://groupmatch-f14e4.firebaseio.com"
-});
 
 const firestore = firebaseAdmin.firestore();
 

@@ -1,4 +1,4 @@
-import admin from "firebase-admin";
+import { firebaseAdmin } from "./firebase-service";
 
 export function sendMulticast(title, body, deviceTokens) {
     const push = {
@@ -9,7 +9,7 @@ export function sendMulticast(title, body, deviceTokens) {
         tokens: deviceTokens,
     }
 
-    admin.messaging().sendMulticast(push)
+    firebaseAdmin.messaging().sendMulticast(push)
         .then(response => {
             console.log(response.successCount + ' messages were sent successfully');
         })
