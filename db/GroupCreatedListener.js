@@ -1,4 +1,4 @@
-import { pushService } from "../services/push-service";
+import { sendMulticast } from "../services/push-service";
 import { getUsers } from "../actions/get_user"
 
 
@@ -14,7 +14,7 @@ class GroupCreatedListener {
 
             const title = `${group.name}`;
             const body = `Você foi adicionado ao grupo por ${group.admins[0]}`
-            pushService.sendMulticast(title, body, deviceTokens)
+            sendMulticast(title, body, deviceTokens)
         }).catch(error => {
             console.log(error);
         });
