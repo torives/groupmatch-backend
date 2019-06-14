@@ -1,4 +1,5 @@
 import { pushService } from "../services/push-service";
+import { getUsers } from "../actions/get_user"
 
 class GroupCreatedListener {
 
