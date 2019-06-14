@@ -4,7 +4,12 @@ import { getUsers } from "../actions/get_user"
 class GroupCreatedListener {
 
     onGroupCreated(group) { 
-        console.log("TO OUVINDO OS GRUPO, MAMAE!!!")
+        console.log(group);
+        getUsers(group.members).then(users => {
+            console.log(users);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 }
 
