@@ -31,11 +31,10 @@ export function getUsers(userIds) {
     return new Promise(function (resolve, reject) {
         usersCollection.get()
             .then(snapshot => {
-                const users = snapshot.docs.filter(user => {
+                const userDocs = snapshot.docs.filter(user => {
                     return userIds.includes(user.id)
                 })
-                console.log(users);
-                resolve(users)
+                resolve(userDocs)
             }).catch(error => {
                 console.log(error);
                 reject({
