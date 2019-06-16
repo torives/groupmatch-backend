@@ -14,3 +14,5 @@ export const authClient = new google.auth.OAuth2(
     keys.client_secret,
     keys.redirect_uris[0]
 );
+
+export const calendarClient = google.calendar({version: 'v3', authClient});
