@@ -9,7 +9,7 @@ if (fs.existsSync(keyPath)) {
     keys = require(keyPath).web;
 }
 
-export const oauth2Client = new google.auth.OAuth2(
+export const authClient = new google.auth.OAuth2(
     keys.client_id,
     keys.client_secret,
     keys.redirect_uris[0]

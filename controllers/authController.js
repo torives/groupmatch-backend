@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator/check');
 import { updateUser } from "../actions/update_user";
 import { getUser } from "../actions/get_user";
-import { oauth2Client } from "../services/google_service";
+import { authClient } from "../services/google_service";
 
 
 class AuthController {
@@ -27,9 +27,9 @@ class AuthController {
                 });
             } else {
                 const authToken = req.body.token;
-                oauth2Client.getToken(authToken).then(response => {
+                authClient.getToken(authToken).then(response => {
                     const { tokens } = response;
-                    oauth2Client.credentials = tokens;
+                    authClient.credentials = tokens;
 
                     console.log(tokens);
                     const userData = {

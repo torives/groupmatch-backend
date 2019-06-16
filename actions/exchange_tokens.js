@@ -1,12 +1,12 @@
-import { oauth2Client } from "../services/google_service";
+import { authClient } from "../services/google_service";
 
 
 export function exchangeTokens(authToken) {
     return new Promise(function (resolve, reject) {
 
-        oauth2Client.getToken(authToken).then(response => {
+        authClient.getToken(authToken).then(response => {
             const tokens = response.tokens;
-            oauth2Client.credentials = tokens;
+            authClient.credentials = tokens;
 
             console.log(tokens);
             resolve([tokens.access_token, tokens.refresh_token]);
