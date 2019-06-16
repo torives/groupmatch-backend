@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator/check');
 import { updateUser } from "../actions/update_user";
 import { getUser } from "../actions/get_user";
-import { oauth2Client } from "../services/google_oath";
+import { oauth2Client } from "../services/google_service";
 
 
 class AuthController {
