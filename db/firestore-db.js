@@ -1,23 +1,12 @@
-import firebaseAdmin from "firebase-admin";
+import { firebaseAdmin } from "../services/firebase-service";
 import { userCreatedListener } from "./UserCreatedListener";
-const serviceAccount = "./secrets/firebase-serviceaccount-key.json";
+import { groupCreatedListener } from "./GroupCreatedListener";
 
+const firestore = firebaseAdmin.firestore();
 
-firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(serviceAccount),
-    databaseURL: "https://groupmatch-f14e4.firebaseio.com"
-});
-
-export const db = firebaseAdmin.firestore();
-const usersCollection = db.collection("users");
-
+const usersCollection = firestore.collection("users");
 usersCollection.onSnapshot(snapshot => {
-    console.log(`Snapshot Timestamp ${snapshot.readTime.toMillis()}`)
-    
     snapshot.docChanges().forEach(change => {
-        console.log(`Document Timestamp ${change.doc.createTime.toMillis()}`)
-        console.log(snapshot.readTime.toMillis() < change.doc.createTime.toMillis())
-     
         if (change.type == "added" && change.doc.createTime.toMillis() >= snapshot.readTime.toMillis()) {
             const userData = change.doc.data();
             console.log(userData);
@@ -25,3 +14,16 @@ usersCollection.onSnapshot(snapshot => {
         }
     });
 });
+
+const groupsCollection = firestore.collection("groups");
+groupsCollection.onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+        if (change.type == "added" && change.doc.createTime.toMillis() >= snapshot.readTime.toMillis()) {
+            const groupData = change.doc.data();
+            console.log(groupData);
+            groupCreatedListener.onGroupCreated(groupData);
+        }
+    });
+});
+
+export const db = firestore;
