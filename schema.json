@@ -18,23 +18,26 @@
         "current_match": null,
         "created_by": ""
     },
-    "match": [
-        {
-            "groupId": "",
-            "status": "",
-            "created_by": "",
-            "created_at": "",
-            "answers": [
-                {
-                    "id": "",
-                    "answer": false,
-                    "local_calendar": {}
-                },
-                {
-                    "id": "",
-                    "answer": false
-                }
-            ]
-        }
-    ]
+    "match": {
+        "groupId": "",
+        "participants": [
+            {
+                "id": "",
+                "name": ""
+            }
+        ],
+        "status": "",
+        "created_by": {
+            "id": "",
+            "name": ""
+        },
+        "created_at": "",
+        "answers": [
+            {
+                "id": "",
+                "has_joined": false,
+                "local_calendar": {}
+            }
+        ]
+    }
 }
