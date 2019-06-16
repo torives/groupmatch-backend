@@ -1,7 +1,8 @@
 class MatchCreatedListener {
 
-    onMatchCreated(match) {
-    }
+    onMatchCreated(match) {}
+
+    onMatchUpdated(match){}
 }
 
 export const matchCreatedListener = new MatchCreatedListener();
