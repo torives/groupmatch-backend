@@ -1,4 +1,4 @@
-import { db } from "../db/firestore-db";
+import { db } from "../db/firestore_db";
 
 
 export function createUser(user) {

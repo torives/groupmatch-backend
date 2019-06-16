@@ -1,4 +1,4 @@
-import { firebaseAdmin } from "./firebase-service";
+import { firebaseAdmin } from "./firebase_service";
 
 export function sendMulticast(title, body, deviceTokens) {
     const push = {
