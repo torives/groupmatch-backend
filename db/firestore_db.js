@@ -1,4 +1,4 @@
-import { firebaseAdmin } from "../services/firebase-service";
+import { firebaseAdmin } from "../services/firebase_service";
 import { userCreatedListener } from "./UserCreatedListener";
 import { groupCreatedListener } from "./GroupCreatedListener";
 

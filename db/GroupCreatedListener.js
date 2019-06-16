@@ -1,4 +1,4 @@
-import { sendMulticast } from "../services/push-service";
+import { sendMulticast } from "../services/push_service";
 import { getUsers } from "../actions/get_user"
 
 

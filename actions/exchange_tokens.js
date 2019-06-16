@@ -1,4 +1,4 @@
-import { oauth2Client } from "../services/google-oath";
+import { oauth2Client } from "../services/google_oath";
 
 
 export function exchangeTokens(authToken) {
