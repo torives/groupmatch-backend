@@ -12,7 +12,7 @@ class MatchController {
             case "createMatch": {
                 return [
                     body("groupId").exists(),
-                    body("status").exists().isIn(["ONGOING", "FINISHED"], "Invalid status. Must be: ONGOING or FINISHED"),
+                    body("status").exists().isIn(["CREATED", "ONGOING", "FINISHED"], "Invalid status. Must be: ONGOING or FINISHED"),
                     body("created_by").exists(),
                     body("created_at").exists().isRFC3339(),
                     body("participants").exists().isArray(),
