@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator/check');
-import { updateUser } from "../actions/update_user";
-import { getUser } from "../actions/get_user";
+import { userDAO } from "../db/dao/UserDAO";
 import { authClient } from "../services/google_service";
 
 
@@ -16,7 +15,7 @@ class AuthController {
         }
 
         const userId = req.body.uid;
-        getUser(userId).then(user => {
+        userDAO.getUser(userId).then(user => {
             const userData = user.data();
             console.log(user.data());
             
@@ -42,7 +41,7 @@ class AuthController {
                     console.log(`id ${userId}`);
                     console.log(userData);
 
-                    updateUser(userId, userData)
+                    userDAO.updateUser(userId, userData)
                         .then(result => {
                             return res.status(result.code).send({
                                 success: true,

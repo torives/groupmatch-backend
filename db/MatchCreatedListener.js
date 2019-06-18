@@ -1,4 +1,4 @@
-import { getUsers } from "../actions/get_user";
+import { userDAO } from "../db/dao/UserDAO";
 import { getCalendar } from "../actions/get_calendar"
 
 class MatchCreatedListener {
@@ -7,7 +7,7 @@ class MatchCreatedListener {
         const userIds = match.participants.map(participant => { participant.id })
         console.log(userIds);
         try {
-            const users = await getUsers(userIds);
+            const users = await userDAO.getUsers(userIds);
             const userCalendar = await getCalendar(users[0]);
             console.log(userCalendar);
         } catch (error) {
