@@ -1,7 +1,7 @@
 import { firebaseAdmin } from "../services/firebase_service";
 import { userCreatedListener } from "./UserCreatedListener";
 import { groupCreatedListener } from "./GroupCreatedListener";
-import { matchCreatedListener } from "./MatchCreatedListener";
+import { matchListener } from "./MatchListener";
 
 const firestore = firebaseAdmin.firestore();
 
@@ -36,9 +36,9 @@ matchesCollection.onSnapshot(snapshot => {
         if (isSnapshotOutdated(snapshot, change.doc)) {
             console.log(matchData);
             if (change.type == "added") {
-                matchCreatedListener.onMatchCreated(matchData);
+                matchListener.onMatchCreated(matchData);
             } else if (change.type == "modified") {
-                matchCreatedListener.onMatchUpdated(matchData);
+                matchListener.onMatchUpdated(matchData);
             }
         }
     });

@@ -1,7 +1,7 @@
-import { userDAO } from "../db/dao/UserDAO";
+import { userDAO } from "./dao/UserDAO";
 import { getCalendar } from "../actions/get_calendar"
 
-class MatchCreatedListener {
+class MatchListener {
 
     async onMatchCreated(match) {
         const userIds = match.participants.map(participant => { participant.id })
@@ -18,4 +18,4 @@ class MatchCreatedListener {
     onMatchUpdated(match) { }
 }
 
-export const matchCreatedListener = new MatchCreatedListener();
+export const matchCreatedListener = new MatchListener();
