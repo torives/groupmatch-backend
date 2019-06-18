@@ -1,6 +1,4 @@
-import { updateUser } from "../actions/update_user";
-import { getUser } from "../actions/get_user";
-import { createUser } from "../actions/create_user";
+import { userDAO } from "../db/dao/UserDAO";
 const { body, validationResult } = require('express-validator/check');
 
 
@@ -16,14 +14,14 @@ class UserController {
         }
 
         const newUser = req.body;
-        getUser(newUser.uid).then(user => {
+        userDAO.getUser(newUser.uid).then(user => {
             return res.status(400).send({
                 success: "false",
                 message: `User with id ${newUser.uid} already exists`
             });
         }).catch(error => {
-            if (error.code == 417) {
-                createUser(newUser).then(result => {
+            if (error.code == 422) {
+                userDAO.createUser(newUser).then(result => {
                     return res.status(201).send({
                         success: "true",
                         message: "User created successfully"
@@ -61,7 +59,7 @@ class UserController {
         const userId = req.params.id;
         const userData = req.body;
         console.log(`id ${userId}\n${userData}`);
-        updateUser(userId, userData).then(result => {
+        userDAO.updateUser(userId, userData).then(result => {
             return res.status(result.code).send({
                 success: true,
                 message: result.message

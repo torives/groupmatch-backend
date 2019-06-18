@@ -1,12 +1,12 @@
 import { sendMulticast } from "../services/push_service";
-import { getUsers } from "../actions/get_user"
+import { userDAO } from "../db/dao/UserDAO"
 
 
 class GroupCreatedListener {
 
     onGroupCreated(group) {
         console.log(group);
-        getUsers(group.members).then(userDocs => {
+        userDAO.getUsers(group.members).then(userDocs => {
             const deviceTokens = userDocs
                 .filter(userDoc => { return userDoc.id != group.admins[0] })
                 .map(userDoc => { return userDoc.data().tokens.device });

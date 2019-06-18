@@ -1,5 +1,5 @@
 import { exchangeTokens } from "../actions/exchange_tokens";
-import { updateUser } from "../actions/update_user";
+import { userDAO } from "../db/dao/UserDAO";
 
 
 function canProcessTokens(tokens) {
@@ -20,17 +20,14 @@ class UserCreatedListener {
                         "refresh": refreshToken
                     }
                 }
-                updateUser(userId, userData)
+                userDAO.updateUser(userId, userData)
                     .then(result => {
-                        console.log(`Success: updated user: ${userId} with access and refresh tokens`)
-                        console.log(result);
+                        console.log(`Success: updated user: ${userId} with access and refresh tokens`, result);
                     }).catch(error => {
-                        console.log(`Failure: failed to update user: ${userId} tokens`)
-                        console.log(error);
+                        console.log(`Failure: failed to update user: ${userId} tokens`, error);
                     });
             }).catch(error => {
-                console.log(`Failure: failed to obtain access token for user: ${userId}`)
-                console.log(error);
+                console.log(`Failure: failed to obtain access token for user: ${userId}`, error)
             });
         }
     }
