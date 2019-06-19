@@ -1,4 +1,5 @@
-import { getGroup } from "../actions/get_group"
+import { matchDAO } from "../db/dao/MatchDAO";
+import { groupDAO } from "../db/dao/GroupDAO";
 
 const { body, validationResult } = require('express-validator/check');
 
@@ -37,7 +38,7 @@ class MatchController {
         }
     }
 
-    updateMatch(req, res) {
+    async updateMatch(req, res) {
         console.log(req.body);
 
         if (isRequestValid(req, res)) {
