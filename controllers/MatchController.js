@@ -15,9 +15,9 @@ class MatchController {
                 const group = await groupDAO.getGroup(matchData.groupId);
                 const groupData = group.data();
                 console.log(groupData);
-                if (groupData.match == null) {
+                if (groupData.current_match == null) {
                     const matchId = await matchDAO.createMatch(matchData);
-                    groupData.match = matchId;
+                    groupData.current_match = matchId;
                     await groupDAO.updateGroup(group.id, groupData);
 
                     return res.status(200).send({
