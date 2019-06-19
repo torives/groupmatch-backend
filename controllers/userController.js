@@ -16,14 +16,14 @@ class UserController {
         const newUser = req.body;
         userDAO.getUser(newUser.uid).then(user => {
             return res.status(400).send({
-                success: "false",
+                success: false,
                 message: `User with id ${newUser.uid} already exists`
             });
         }).catch(error => {
             if (error.code == 422) {
                 userDAO.createUser(newUser).then(result => {
                     return res.status(201).send({
-                        success: "true",
+                        success: true,
                         message: "User created successfully"
                     });
                 }).catch(error => {
@@ -31,7 +31,7 @@ class UserController {
                     console.log(error);
 
                     return res.status(500).send({
-                        success: "false",
+                        success: false,
                         message: "Failed to create user"
                     });
                 });
@@ -40,7 +40,7 @@ class UserController {
                 console.log(error);
 
                 return res.status(500).send({
-                    success: "false",
+                    success: false,
                     message: "Failed to create user"
                 });
             }
