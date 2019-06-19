@@ -28,16 +28,16 @@ class GroupDAO {
         });
     }
 
-    updateGroup(group) {
+    updateGroup(groupId, groupData) {
         return new Promise(function (resolve, reject) {
-            groupsCollection.doc(group.id).set(group, { merge: true }).then(result => {
-                console.log(`[GroupDAO]: successfully updated group with id ${group.id}`);
+            groupsCollection.doc(groupId).set(groupData, { merge: true }).then(result => {
+                console.log(`[GroupDAO]: successfully updated group with id ${groupId}`);
                 resolve(true);
             }).catch(error => {
-                console.log(`GroupDAO: failed to update group with id ${group.id}`, error);
+                console.log(`GroupDAO: failed to update group with id ${groupId}`, error);
                 reject({
                     code: 500,
-                    message: `Failed to update group with id ${group.id} to the database.`
+                    message: `Failed to update group with id ${groupId} to the database.`
                 })
             });
         });

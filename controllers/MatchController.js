@@ -13,11 +13,12 @@ class MatchController {
         if (isRequestValid(req, res)) {
             try {
                 const group = await groupDAO.getGroup(matchData.groupId);
-                console.log(group);
-                if (group.match == null) {
+                const groupData = group.data();
+                console.log(groupData);
+                if (groupData.match == null) {
                     const matchId = await matchDAO.createMatch(matchData);
-                    group.match = matchId;
-                    await groupDAO.updateGroup(group);
+                    groupData.match = matchId;
+                    await groupDAO.updateGroup(group.id, groupData);
 
                     return res.status(200).send({
                         success: true,
