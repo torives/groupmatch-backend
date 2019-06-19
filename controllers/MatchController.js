@@ -39,7 +39,7 @@ class MatchController {
         }
     }
 
-    async updateMatch(req, res) {
+    async addAnswer(req, res) {
         console.log(req);
         const matchId = req.params.id;
         const { userId, has_joined, local_calendar } = req.body;
@@ -53,13 +53,13 @@ class MatchController {
 
                 return res.status(200).send({
                     success: true,
-                    message: "Successfully updated match"
+                    message: "Successfully registered answer"
                 })
             } catch (error) {
                 console.log(error);
                 res.status(500).send({
                     success: false,
-                    message: "Failed to update match"
+                    message: "Failed to register answer"
                 })
             }
         }
@@ -78,7 +78,7 @@ class MatchController {
                     body("answers").isArray()
                 ]
             }
-            case "updateMatch": {
+            case "addAnswer": {
                 return [
                     body("id").exists().isString(),
                     body("has_joined").exists().isBoolean(),
