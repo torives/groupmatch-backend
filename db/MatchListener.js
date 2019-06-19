@@ -18,4 +18,4 @@ class MatchListener {
     onMatchUpdated(match) { }
 }
 
-export const matchCreatedListener = new MatchListener();
+export const matchListener = new MatchListener();
