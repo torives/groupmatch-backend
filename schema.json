@@ -32,12 +32,11 @@
             "name": ""
         },
         "created_at": "",
-        "answers": [
-            {
-                "id": "",
+        "answers": {
+            "id": {
                 "has_joined": false,
                 "local_calendar": {}
             }
-        ]
+        }
     }
 }
