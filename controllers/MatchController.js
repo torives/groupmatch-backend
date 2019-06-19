@@ -12,7 +12,7 @@ class MatchController {
 
         if (isRequestValid(req, res)) {
             try {
-                const group = await getGroup(matchData.groupId);
+                const group = await groupDAO.getGroup(matchData.groupId);
                 console.log(group);
                 if (group.match == null) {
                     const matchId = await matchDAO.createMatch(matchData);
