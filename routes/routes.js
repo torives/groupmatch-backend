@@ -19,10 +19,10 @@ router.post("/api/v1/auth/token",
 router.get("/api/v1/auth/callback", authController.handleGoogleOauthCallback);
 
 // User
-router.post("/api/v1/user",
+router.post("/api/v1/users",
     userController.validate("createUser"),
     userController.createUser);
-router.put("/api/v1/user/:id",
+router.put("/api/v1/users/:id",
     userController.validate("updateUser"),
     userController.updateUser);
 
