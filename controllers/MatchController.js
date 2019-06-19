@@ -7,45 +7,61 @@ const { body, validationResult } = require('express-validator/check');
 class MatchController {
 
     async createMatch(req, res) {
-        const match = req.body;
-        console.log(match);
+        const matchData = req.body;
+        console.log(matchData);
 
         if (isRequestValid(req, res)) {
-            return res.status(200).send({
-                success: "true",
-                message: "Test success message"
-            });
-        }
+            try {
+                const group = await getGroup(matchData.groupId);
+                console.log(group);
+                if (group.match == null) {
+                    const matchId = await matchDAO.createMatch(matchData);
+                    group.match = matchId;
+                    await groupDAO.updateGroup(group);
 
-        try {
-            const group = await getGroup(match.groupId);
-            console.log(group);
-            if(group.match == null) {
-                
-            } else {
-                //TODO: Create error code for this scenario
-                return res.status(422).send({
-                    success: "false",
-                    message: "A group can have only one ongoing match at a time"
+                    return res.status(200).send({
+                        success: true,
+                        message: `Successfully started a new match for group ${group.id}`
+                    });
+                } else {
+                    return res.status(422).send({
+                        success: false,
+                        message: "A group can have only one ongoing match at a time"
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+                return res.status(500).send({
+                    success: false,
+                    message: `Failed to start match for group ${matchData.groupId}`
                 })
             }
-        } catch (error) {
-            console.log(error)
-            return res.status(error.code).send({
-                success: "false",
-                message: error.message
-            })
         }
     }
 
     async updateMatch(req, res) {
-        console.log(req.body);
+        console.log(req);
+        const matchId = req.params.id;
+        const { userId, has_joined, local_calendar } = req.body;
 
         if (isRequestValid(req, res)) {
-            return res.status(200).send({
-                success: "true",
-                message: "Test success message"
-            })
+            try {
+                const match = await matchDAO.getMatch(matchId);
+                const answer = { has_joined, local_calendar }
+                match.answers[userId] = answer;
+                await matchDAO.updateMatch(matchId, match);
+
+                return res.status(200).send({
+                    success: true,
+                    message: "Successfully updated match"
+                })
+            } catch (error) {
+                console.log(error);
+                res.status(500).send({
+                    success: false,
+                    message: "Failed to update match"
+                })
+            }
         }
     }
 
