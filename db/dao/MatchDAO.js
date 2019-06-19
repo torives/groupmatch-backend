@@ -10,7 +10,7 @@ class MatchDAO {
             matchesCollection.add(match)
                 .then(result => {
                     console.log(`[MatchDAO]: successfully created match`);
-                    resolve(true);
+                    resolve(result.id);
                 }).catch(error => {
                     console.log(`[MatchDAO]: failed to create match.`, error);
                     reject({
