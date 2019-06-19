@@ -30,7 +30,6 @@ router.put("/api/v1/user/:id",
 router.post("/api/v1/match",
     matchController.validate("createMatch"),
     matchController.createMatch);
-
 router.put("/api/v1/match/:id",
-    matchController.validate("updateMatch"),
-    matchController.updateMatch);
+    matchController.validate("addAnswer"),
+    matchController.addAnswer);
