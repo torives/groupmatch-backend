@@ -1,4 +1,4 @@
-import { db } from "firestore_db"
+import { db } from "../firestore_db"
 
 const matchesCollection = db.collection("matches");
 
