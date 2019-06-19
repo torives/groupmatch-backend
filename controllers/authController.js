@@ -57,7 +57,7 @@ class AuthController {
                     console.log(error)
 
                     return res.status(error.code).send({
-                        success: "false",
+                        success: false,
                         message: error.message
                     })
                 });
@@ -65,7 +65,7 @@ class AuthController {
         }).catch(error => {
             console.log(error);
             return res.status(500).send({
-                success: "false",
+                success: false,
                 message: "Failed to execute oauth flow."
             });
         });
