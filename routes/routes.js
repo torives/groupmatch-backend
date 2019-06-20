@@ -27,9 +27,9 @@ router.put("/api/v1/users/:id",
     userController.updateUser);
 
 // Match
-router.post("/api/v1/match",
+router.post("/api/v1/matches",
     matchController.validate("createMatch"),
     matchController.createMatch);
-router.put("/api/v1/match/:id",
+router.post("/api/v1/matches/:matchId/answers",
     matchController.validate("addAnswer"),
     matchController.addAnswer);
