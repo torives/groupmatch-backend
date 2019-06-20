@@ -48,9 +48,10 @@ class MatchController {
         if (isRequestValid(req, res)) {
             try {
                 const match = await matchDAO.getMatch(matchId);
+                const matchData = match.data();
                 const answer = { has_joined, local_calendar }
-                match.answers[userId] = answer;
-                await matchDAO.updateMatch(matchId, match);
+                matchData.answers[userId] = answer;
+                await matchDAO.updateMatch(matchId, matchData);
 
                 return res.status(200).send({
                     success: true,

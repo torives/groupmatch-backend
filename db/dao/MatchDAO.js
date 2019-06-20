@@ -1,12 +1,14 @@
 import { db } from "../firestore_db"
+import { matchFactory } from "../../models/MatchFactory"
 
 const matchesCollection = db.collection("matches");
 
-
+//TODO: Create model classes that wrap Firestore objects
 class MatchDAO {
 
-    createMatch(match) {
+    createMatch(matchData) {
         return new Promise(function (resolve, reject) {
+            const match = matchFactory.create(matchData.groupId, matchData.participants, matchData.creator)
             matchesCollection.add(match)
                 .then(result => {
                     console.log(`[MatchDAO]: successfully created match`);
@@ -26,7 +28,7 @@ class MatchDAO {
             matchesCollection.doc(matchId).get().then(match => {
                 if (match.exists) {
                     console.log(`[MatchDAO]: successfully retrieved match with id ${matchId}`);
-                    resolve(group);
+                    resolve(match);
                 } else {
                     console.log(`[MatchDAO]: failed to retrieve match with id ${matchId}. Match does not exist.`);
                     reject({
@@ -59,5 +61,6 @@ class MatchDAO {
         });
     }
 }
+
 
 export const matchDAO = new MatchDAO();
