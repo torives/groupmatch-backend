@@ -40,9 +40,10 @@ class MatchController {
         }
     }
 
+    //TODO: check if answer already exists
     async addAnswer(req, res) {
         console.log(req);
-        const matchId = req.params.id;
+        const matchId = req.params.matchId;
         const { userId, has_joined, local_calendar } = req.body;
 
         if (isRequestValid(req, res)) {
@@ -55,7 +56,7 @@ class MatchController {
 
                 return res.status(200).send({
                     success: true,
-                    message: "Successfully registered answer"
+                    message: `Successfully registered answer for user: ${userId}`
                 })
             } catch (error) {
                 console.log(error);
@@ -78,7 +79,7 @@ class MatchController {
             }
             case "addAnswer": {
                 return [
-                    body("id").exists().isString(),
+                    body("userId").exists().isString(),
                     body("has_joined").exists().isBoolean(),
                     body("local_calendar").optional()
                 ]
