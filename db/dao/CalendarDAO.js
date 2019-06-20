@@ -9,19 +9,25 @@ class CalendarDAO {
         // const result = await Promise.all(getCalendarPromises);
         // console.log(result);
     }
-    
+
     getCalendar(userData) {
         return new Promise(async function (resolve, reject) {
             try {
                 const googleCalendarClient = getCalendarClient(userData.tokens);
-                console.log(googleCalendarClient);
-                resolve(true)
+                const currentWeekEvents = await googleCalendarClient.events.list({
+                    calendarId: 'primary',
+                    timeMin: (new Date()).toISOString(),
+                    maxResults: 10,
+                    singleEvents: true,
+                    orderBy: 'startTime',
+                });
+                resolve(currentWeekEvents)
             } catch (error) {
                 console.log(error);
                 reject(error)
             }
         });
-    } 
+    }
 }
 
 
