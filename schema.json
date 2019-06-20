@@ -27,7 +27,7 @@
             }
         ],
         "status": "",
-        "created_by": {
+        "creator": {
             "id": "",
             "name": ""
         },

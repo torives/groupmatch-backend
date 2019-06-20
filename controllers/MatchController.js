@@ -71,12 +71,8 @@ class MatchController {
             case "createMatch": {
                 return [
                     body("groupId").exists(),
-                    body("status")
-                        .isIn(["CREATED", "ONGOING", "FINISHED"])
-                        .withMessage(),
-                    body("created_by").exists(),
                     body("participants").isArray(),
-                    body("answers").isArray()
+                    body("creator").exists()
                 ]
             }
             case "addAnswer": {
