@@ -11,7 +11,7 @@ class MatchDAO {
             const match = matchFactory.create(matchData.groupId, matchData.participants, matchData.creator)
             matchesCollection.add(match)
                 .then(result => {
-                    console.log(`[MatchDAO]: successfully created match`);
+                    console.log(`[MatchDAO]: successfully created match with id: ${result.id}`);
                     resolve(result.id);
                 }).catch(error => {
                     console.log(`[MatchDAO]: failed to create match.`, error);
