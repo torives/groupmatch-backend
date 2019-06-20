@@ -15,12 +15,13 @@ class CalendarDAO {
             try {
                 const googleCalendarClient = getCalendarClient(userData.tokens);
                 const currentWeekEvents = await googleCalendarClient.events.list({
+                    auth: userData.tokens.access,
                     calendarId: 'primary',
                     timeMin: (new Date()).toISOString(),
                     maxResults: 10,
                     singleEvents: true,
                     orderBy: 'startTime',
-                })
+                });
                 resolve(currentWeekEvents)
             } catch (error) {
                 console.log(error);

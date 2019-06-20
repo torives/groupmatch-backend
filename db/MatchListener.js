@@ -8,7 +8,7 @@ class MatchListener {
         console.log(userIds);
         try {
             const users = await userDAO.getUsers(userIds);
-            const userCalendar = await calendarDAO.getCalendar(users[0].data());
+            const userCalendar = await calendarDAO.getCalendar(users[1].data());
             console.log(userCalendar);
         } catch (error) {
             console.log(error);
