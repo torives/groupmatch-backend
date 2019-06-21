@@ -1,0 +1,509 @@
+{
+    "kind": "calendar#events",
+    "etag": "\"p33sbdvvnjvse40g\"",
+    "summary": "Pessoal",
+    "updated": "2019-06-20T14:16:46.683Z",
+    "timeZone": "America/Sao_Paulo",
+    "accessRole": "owner",
+    "defaultReminders": [
+        {
+            "method": "email",
+            "minutes": 10
+        },
+        {
+            "method": "popup",
+            "minutes": 30
+        }
+    ],
+    "nextSyncToken": "CPi2__ef-OICEPi2__ef-OICGAU=",
+    "items": [
+        {
+            "kind": "calendar#event",
+            "etag": "\"3093136590424000\"",
+            "id": "_6kpkcc9o6cp46b9m74sk4b9k60q42b9o8crk2ba56so36ca56d342hhl6s_20190623T140000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzZrcGtjYzlvNmNwNDZiOW03NHNrNGI5azYwcTQyYjlvOGNyazJiYTU2c28zNmNhNTZkMzQyaGhsNnNfMjAxOTA2MjNUMTQwMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2018-10-01T00:34:13.000Z",
+            "updated": "2019-04-09T04:02:16.599Z",
+            "summary": "Culto",
+            "location": "Igreja Batista do Méier\nRua Hermengarda, 31, Méier, Rio de Janeiro - RJ, 20710-010, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-23T11:00:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-23T13:00:00-03:00"
+            },
+            "recurringEventId": "_6kpkcc9o6cp46b9m74sk4b9k60q42b9o8crk2ba56so36ca56d342hhl6s",
+            "originalStartTime": {
+                "dateTime": "2019-06-23T11:00:00-03:00"
+            },
+            "iCalUID": "53F1832C-699B-404A-8C7A-E7031E3FAF57",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3105160547465000\"",
+            "id": "_84r34c248krj0b9g60p3ib9k6l33cba2890k6ba388s4chhi8h2kacq48g_20190623T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=Xzg0cjM0YzI0OGtyajBiOWc2MHAzaWI5azZsMzNjYmEyODkwazZiYTM4OHM0Y2hoaThoMmthY3E0OGdfMjAxOTA2MjNUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-02-04T19:09:47.000Z",
+            "updated": "2019-04-21T13:26:00.054Z",
+            "summary": "EBD",
+            "location": "Igreja Batista do Méier\nRua Hermengarda, 31, Méier, Rio de Janeiro - RJ, 20710-010, Brasil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-23T09:30:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "end": {
+                "dateTime": "2019-06-23T11:00:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "recurringEventId": "_84r34c248krj0b9g60p3ib9k6l33cba2890k6ba388s4chhi8h2kacq48g",
+            "originalStartTime": {
+                "dateTime": "2019-06-23T09:30:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "iCalUID": "A620DE70-0029-45F6-BBAC-CB8FF2DEE3DD",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 30
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3109854727430000\"",
+            "id": "_88qjie9m6d23cb9h84sjeb9k60q48b9p850kcb9k8cr32h1k8ks48d1j6k_20190621T223000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=Xzg4cWppZTltNmQyM2NiOWg4NHNqZWI5azYwcTQ4YjlwODUwa2NiOWs4Y3IzMmgxazhrczQ4ZDFqNmtfMjAxOTA2MjFUMjIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-02-04T19:08:22.000Z",
+            "updated": "2019-06-14T21:23:44.878Z",
+            "summary": "Café dos Jovens",
+            "location": "Igreja Batista do Méier\nRua Hermengarda, 31, Méier, Rio de Janeiro - RJ, 20710-010, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-21T19:30:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "end": {
+                "dateTime": "2019-06-21T21:30:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "recurringEventId": "_88qjie9m6d23cb9h84sjeb9k60q48b9p850kcb9k8cr32h1k8ks48d1j6k",
+            "originalStartTime": {
+                "dateTime": "2019-06-21T19:30:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "iCalUID": "B59963D6-1A97-404D-9AAF-4C61D4E8D435",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 120
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3112842136995000\"",
+            "id": "_70rk2e9j84r3eba56krkab9k8gojib9o60sk2b9i64pj0chn6gqjadho6o_20190623T170000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzcwcmsyZTlqODRyM2ViYTU2a3JrYWI5azhnb2ppYjlvNjBzazJiOWk2NHBqMGNobjZncWphZGhvNm9fMjAxOTA2MjNUMTcwMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-03-09T11:56:09.000Z",
+            "updated": "2019-06-16T18:24:56.376Z",
+            "summary": "RPG",
+            "location": "Rua Rêgo Lopes\n73, Apto 204\nRio De Janeiro RJ\nBrazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-23T14:00:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-23T18:00:00-03:00"
+            },
+            "recurringEventId": "_70rk2e9j84r3eba56krkab9k8gojib9o60sk2b9i64pj0chn6gqjadho6o",
+            "originalStartTime": {
+                "dateTime": "2019-06-23T14:00:00-03:00"
+            },
+            "iCalUID": "87A93A67-E57E-4D19-809A-213027455686",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 30
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3099076885602000\"",
+            "id": "_8p246h238crj6b9m6grj0b9k6d34ab9o88sk4b9k8cp44h9m652jge2284_20190623T220000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhwMjQ2aDIzOGNyajZiOW02Z3JqMGI5azZkMzRhYjlvODhzazRiOWs4Y3A0NGg5bTY1MmpnZTIyODRfMjAxOTA2MjNUMjIwMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2018-10-01T00:34:14.000Z",
+            "updated": "2019-06-16T22:07:10.927Z",
+            "summary": "Culto",
+            "location": "Igreja Batista do Méier\nRua Hermengarda, 31, Méier, Rio de Janeiro - RJ, 20710-010, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-23T19:00:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-23T21:00:00-03:00"
+            },
+            "recurringEventId": "_8p246h238crj6b9m6grj0b9k6d34ab9o88sk4b9k8cp44h9m652jge2284",
+            "originalStartTime": {
+                "dateTime": "2019-06-23T19:00:00-03:00"
+            },
+            "iCalUID": "FDCDCC73-6470-43FE-8B9B-4C2BE61E88BA",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3051074219297000\"",
+            "id": "_70s32hhh8kr34b9h6l14cb9k8kp4aba16op3ab9g6kp48ci66t1j2g9i6o_20190623",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzcwczMyaGhoOGtyMzRiOWg2bDE0Y2I5azhrcDRhYmExNm9wM2FiOWc2a3A0OGNpNjZ0MWoyZzlpNm9fMjAxOTA2MjMgcm90Y2l2eXZlc0Bt",
+            "created": "2017-03-23T19:41:00.000Z",
+            "updated": "2019-06-17T12:55:32.197Z",
+            "summary": "Planejar a Semana",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "displayName": "Victor Yves",
+                "self": true
+            },
+            "start": {
+                "date": "2019-06-23"
+            },
+            "end": {
+                "date": "2019-06-24"
+            },
+            "recurringEventId": "_70s32hhh8kr34b9h6l14cb9k8kp4aba16op3ab9g6kp48ci66t1j2g9i6o",
+            "originalStartTime": {
+                "date": "2019-06-23"
+            },
+            "transparency": "transparent",
+            "iCalUID": "881F1E62-15BF-4E2E-A625-052D2F7C1A26",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3118882454491000\"",
+            "id": "_84q48ha18d232ba26kp3cb9k8l0k8b9o750j8ba28d13ec9i61230dq568_20190619T120000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=Xzg0cTQ4aGExOGQyMzJiYTI2a3AzY2I5azhsMGs4YjlvNzUwajhiYTI4ZDEzZWM5aTYxMjMwZHE1NjhfMjAxOTA2MTlUMTIwMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-05-15T14:20:53.000Z",
+            "updated": "2019-06-19T13:53:20.983Z",
+            "summary": "Grupo Ansiedade",
+            "description": "Noap - Prédio do Couve Flor\nHelen - helenvoliveira@gmail.com\nÉverton\nAna ",
+            "location": "Pontifícia Universidade Católica\nGávea, Rio de Janeiro - RJ, 22451-041, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-19T09:00:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "end": {
+                "dateTime": "2019-06-19T11:00:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "recurringEventId": "_84q48ha18d232ba26kp3cb9k8l0k8b9o750j8ba28d13ec9i61230dq568",
+            "originalStartTime": {
+                "dateTime": "2019-06-19T09:00:00-03:00",
+                "timeZone": "America/Sao_Paulo"
+            },
+            "iCalUID": "A4DEACD1-B526-4EAD-89A4-BCB7120D07E2",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 120
+                    },
+                    {
+                        "method": "popup",
+                        "minutes": 1440
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3121965773114000\"",
+            "id": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c_20190619T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhvcGo0aGhwNzEwamFiOW44b3M0YWI5azY0cWowYmExNmdwMzJiOW82b3AzMGQxaDhoMjM4ZHExNmNfMjAxOTA2MTlUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-04-13T20:59:45.000Z",
+            "updated": "2019-06-19T22:21:26.635Z",
+            "summary": "Trabalhar",
+            "location": "Città Office\nAvenida das Américas, 700, Barra da Tijuca, Rio de Janeiro - RJ, 22640, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-19T12:00:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-19T21:00:00-03:00"
+            },
+            "recurringEventId": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c",
+            "originalStartTime": {
+                "dateTime": "2019-06-19T09:30:00-03:00"
+            },
+            "iCalUID": "F32F98A5-7F8E-4150-A421-862041DD47A3",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 10
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3116229392438000\"",
+            "id": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c_20190617T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhvcGo0aGhwNzEwamFiOW44b3M0YWI5azY0cWowYmExNmdwMzJiOW82b3AzMGQxaDhoMjM4ZHExNmNfMjAxOTA2MTdUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-04-13T20:59:45.000Z",
+            "updated": "2019-06-20T14:16:46.683Z",
+            "summary": "Trabalhar",
+            "location": "Città Office\nAvenida das Américas, 700, Barra da Tijuca, Rio de Janeiro - RJ, 22640, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-17T09:30:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-17T18:30:00-03:00"
+            },
+            "recurringEventId": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c",
+            "originalStartTime": {
+                "dateTime": "2019-06-17T09:30:00-03:00"
+            },
+            "iCalUID": "F32F98A5-7F8E-4150-A421-862041DD47A3",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 10
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3116229392438000\"",
+            "id": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c_20190618T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhvcGo0aGhwNzEwamFiOW44b3M0YWI5azY0cWowYmExNmdwMzJiOW82b3AzMGQxaDhoMjM4ZHExNmNfMjAxOTA2MThUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-04-13T20:59:45.000Z",
+            "updated": "2019-06-20T14:16:46.683Z",
+            "summary": "Trabalhar",
+            "location": "Città Office\nAvenida das Américas, 700, Barra da Tijuca, Rio de Janeiro - RJ, 22640, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-18T09:30:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-18T18:30:00-03:00"
+            },
+            "recurringEventId": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c",
+            "originalStartTime": {
+                "dateTime": "2019-06-18T09:30:00-03:00"
+            },
+            "iCalUID": "F32F98A5-7F8E-4150-A421-862041DD47A3",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 10
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3116229392438000\"",
+            "id": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c_20190620T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhvcGo0aGhwNzEwamFiOW44b3M0YWI5azY0cWowYmExNmdwMzJiOW82b3AzMGQxaDhoMjM4ZHExNmNfMjAxOTA2MjBUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-04-13T20:59:45.000Z",
+            "updated": "2019-06-20T14:16:46.683Z",
+            "summary": "Trabalhar",
+            "location": "Città Office\nAvenida das Américas, 700, Barra da Tijuca, Rio de Janeiro - RJ, 22640, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-20T09:30:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-20T18:30:00-03:00"
+            },
+            "recurringEventId": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c",
+            "originalStartTime": {
+                "dateTime": "2019-06-20T09:30:00-03:00"
+            },
+            "iCalUID": "F32F98A5-7F8E-4150-A421-862041DD47A3",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 10
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "calendar#event",
+            "etag": "\"3116229392438000\"",
+            "id": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c_20190621T123000Z",
+            "status": "confirmed",
+            "htmlLink": "https://www.google.com/calendar/event?eid=XzhvcGo0aGhwNzEwamFiOW44b3M0YWI5azY0cWowYmExNmdwMzJiOW82b3AzMGQxaDhoMjM4ZHExNmNfMjAxOTA2MjFUMTIzMDAwWiByb3RjaXZ5dmVzQG0",
+            "created": "2019-04-13T20:59:45.000Z",
+            "updated": "2019-06-20T14:16:46.683Z",
+            "summary": "Trabalhar",
+            "location": "Città Office\nAvenida das Américas, 700, Barra da Tijuca, Rio de Janeiro - RJ, 22640, Brazil",
+            "creator": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "organizer": {
+                "email": "rotcivyves@gmail.com",
+                "self": true
+            },
+            "start": {
+                "dateTime": "2019-06-21T09:30:00-03:00"
+            },
+            "end": {
+                "dateTime": "2019-06-21T18:30:00-03:00"
+            },
+            "recurringEventId": "_8opj4hhp710jab9n8os4ab9k64qj0ba16gp32b9o6op30d1h8h238dq16c",
+            "originalStartTime": {
+                "dateTime": "2019-06-21T09:30:00-03:00"
+            },
+            "iCalUID": "F32F98A5-7F8E-4150-A421-862041DD47A3",
+            "sequence": 0,
+            "reminders": {
+                "useDefault": false,
+                "overrides": [
+                    {
+                        "method": "popup",
+                        "minutes": 10
+                    }
+                ]
+            }
+        }
+    ]
+}
