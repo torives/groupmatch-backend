@@ -1,10 +1,10 @@
 import { db } from "../db/firestore-db";
 
+const usersCollection = db.collection("users");
 
 export function getUser(userId) {
     return new Promise(function (resolve, reject) {
 
-        const usersCollection = db.collection("users");
         const getUser = usersCollection.doc(userId).get();
         getUser.then(user => {
             if (user.exists) {
@@ -24,5 +24,23 @@ export function getUser(userId) {
                 message: `Failed to retrieve user with id ${userId} from database.`
             });
         });
+    });
+}
+
+export function getUsers(userIds) {
+    return new Promise(function (resolve, reject) {
+        usersCollection.get()
+            .then(snapshot => {
+                const userDocs = snapshot.docs.filter(user => {
+                    return userIds.includes(user.id)
+                })
+                resolve(userDocs)
+            }).catch(error => {
+                console.log(error);
+                reject({
+                    code: 500,
+                    message: `Failed to retrieve specified users from database.`
+                });
+            });
     });
 }
