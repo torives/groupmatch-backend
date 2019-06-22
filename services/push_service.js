@@ -11,9 +11,9 @@ export function sendMulticast(title, body, deviceTokens) {
 
     firebaseAdmin.messaging().sendMulticast(push)
         .then(response => {
-            console.log(response.successCount + ' messages were sent successfully');
+            console.log(`[Push Service] Sent ${response.successCount} of ${deviceTokens.length} messages successfully'`);
         })
         .catch(error => {
-            console.log(error);
+            console.log(`[Push Service] Failed to send messages.`, error);
         });
 }
