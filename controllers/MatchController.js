@@ -51,10 +51,20 @@ class MatchController {
                 const match = await matchDAO.getMatch(matchId);
                 const matchData = match.data();
                 const answer = { has_joined, local_calendar }
+                
                 matchData.answers[userId] = answer;
+
+                if(matchData.answers.length == matchData.participants.length) {
+                    matchData.status = "FINISHED";
+                } else {
+                    matchData.status = "ONGOING";
+                }
+
+                //TODO: Start calendar comparison
+
                 await matchDAO.updateMatch(matchId, matchData);
 
-                return res.status(200).send({
+                res.status(200).send({
                     success: true,
                     message: `Successfully registered answer for user: ${userId}`
                 })

@@ -23,11 +23,6 @@ class MatchListener {
             console.log(`[MatchListener] onMatchCreated failure \n`, error);
         }
     }
-
-    onMatchUpdated(match) {
-        // const userCalendar = await calendarDAO.getCurrentWeekEvents(users[0].data());
-        // console.log(userCalendar);
-    }
 }
 
 export const matchListener = new MatchListener();
