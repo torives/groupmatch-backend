@@ -1,21 +1,31 @@
 import { userDAO } from "./dao/UserDAO";
 import { calendarDAO } from "../db/dao/CalendarDAO"
+import { sendMulticast } from "../services/push_service"
 
 class MatchListener {
 
     async onMatchCreated(match) {
-        const userIds = match.participants.map(participant => participant.id);
-        console.log(userIds);
+        const userIds = match.participants
+            .filter(participant => participant.id != match.creator.id)
+            .map(participant => participant.id);
         try {
             const users = await userDAO.getUsers(userIds);
-            const userCalendar = await calendarDAO.getCalendar(users[0].data());
-            console.log(userCalendar);
+            const deviceTokens = users.map(user => user.tokens.device);
+
+            sendMulticast(
+                `${match.group.name}: Novo Match!`,
+                `Deseja participar?`,
+                deviceTokens
+            )
         } catch (error) {
-            console.log(error);
+            console.log(`[MatchListener] onMatchCreated failure`, error);
         }
     }
 
-    onMatchUpdated(match) { }
+    onMatchUpdated(match) {
+        // const userCalendar = await calendarDAO.getCurrentWeekEvents(users[0].data());
+        // console.log(userCalendar);
+    }
 }
 
 export const matchListener = new MatchListener();
