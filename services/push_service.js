@@ -1,12 +1,16 @@
 import { firebaseAdmin } from "./firebase_service";
 
-export function sendMulticast(title, body, deviceTokens) {
+export function sendMulticast(title, body, deviceTokens, payload = null) {
     const push = {
         notification: {
             title: title,
             body: body
         },
         tokens: deviceTokens,
+    }
+
+    if(payload != null) {
+        push["data"] = payload;
     }
 
     firebaseAdmin.messaging().sendMulticast(push)

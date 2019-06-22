@@ -11,11 +11,13 @@ class MatchListener {
         try {
             const users = await userDAO.getUsers(userIds);
             const deviceTokens = users.map(user => user.data().tokens.device);
+            const payload = { groupId: match.group.id }
 
             sendMulticast(
                 `${match.group.name}: Novo Match!`,
                 `Deseja participar?`,
-                deviceTokens
+                deviceTokens,
+                payload
             )
         } catch (error) {
             console.log(`[MatchListener] onMatchCreated failure \n`, error);
