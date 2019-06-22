@@ -10,11 +10,11 @@ class CalendarDAO {
         // console.log(result);
     }
 
-    getCalendar(userData) {
+    getCurrentWeekEvents(userData) {
         return new Promise(async function (resolve, reject) {
             try {
-                const googleCalendarClient = getCalendarClient(userData.tokens);
-                const currentWeekEvents = await googleCalendarClient.events.list({
+                const calendarClient = getCalendarClient(userData.tokens);
+                const currentWeekEvents = await calendarClient.events.list({
                     calendarId: 'primary',
                     timeMin: (new Date()).toISOString(),
                     maxResults: 10,
