@@ -10,7 +10,7 @@ class MatchListener {
             .map(participant => participant.id);
         try {
             const users = await userDAO.getUsers(userIds);
-            const deviceTokens = users.map(user => user.tokens.device);
+            const deviceTokens = users.map(user => user.data().tokens.device);
 
             sendMulticast(
                 `${match.group.name}: Novo Match!`,
@@ -18,7 +18,7 @@ class MatchListener {
                 deviceTokens
             )
         } catch (error) {
-            console.log(`[MatchListener] onMatchCreated failure`, error);
+            console.log(`[MatchListener] onMatchCreated failure \n`, error);
         }
     }
 
