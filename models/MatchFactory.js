@@ -1,5 +1,5 @@
 class MatchFactory {
-    create(groupId, participants, creator) {
+    create(group, participants, creator) {
         const { id, name, local_calendar } = creator
         const _creator = { id, name }
 
@@ -12,7 +12,7 @@ class MatchFactory {
             }
         }
         return {
-            groupId: groupId,
+            group: group,
             participants: participants,
             creator: _creator,
             answers: answers,

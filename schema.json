@@ -19,7 +19,10 @@
         "created_by": ""
     },
     "match": {
-        "groupId": "",
+        "group": {
+            "id": "",
+            "name": ""
+        },
         "participants": [
             {
                 "id": "",

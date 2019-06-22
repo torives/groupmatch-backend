@@ -8,7 +8,7 @@ class MatchDAO {
 
     createMatch(matchData) {
         return new Promise(function (resolve, reject) {
-            const match = matchFactory.create(matchData.groupId, matchData.participants, matchData.creator)
+            const match = matchFactory.create(matchData.group, matchData.participants, matchData.creator)
             matchesCollection.add(match)
                 .then(result => {
                     console.log(`[MatchDAO]: successfully created match with id: ${result.id}`);

@@ -12,7 +12,7 @@ class MatchController {
 
         if (isRequestValid(req, res)) {
             try {
-                const group = await groupDAO.getGroup(matchData.groupId);
+                const group = await groupDAO.getGroup(matchData.group.id);
                 const groupData = group.data();
                 console.log(groupData);
                 if (groupData.current_match == null) {
@@ -22,7 +22,7 @@ class MatchController {
 
                     return res.status(200).send({
                         success: true,
-                        message: `Successfully started a new match for group ${group.id}`
+                        message: `Successfully started a new match for group: ${group}`
                     });
                 } else {
                     return res.status(422).send({
@@ -34,7 +34,7 @@ class MatchController {
                 console.log(error)
                 return res.status(500).send({
                     success: false,
-                    message: `Failed to start match for group ${matchData.groupId}`
+                    message: `Failed to start match for group ${matchData.group}`
                 })
             }
         }
@@ -72,7 +72,7 @@ class MatchController {
         switch (method) {
             case "createMatch": {
                 return [
-                    body("groupId").exists(),
+                    body("group").exists(),
                     body("participants").isArray(),
                     body("creator").exists()
                 ]
