@@ -15,7 +15,8 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "firebase-admin": "^7.2.0",
-    "googleapis": "^39.2.0"
+    "googleapis": "^39.2.0",
+    "moment-timezone": "^0.5.25"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
