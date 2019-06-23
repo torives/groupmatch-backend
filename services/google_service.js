@@ -17,9 +17,8 @@ export const authClient = new google.auth.OAuth2(
 
 //FIXME: what happens when the token expires???
 //TODO: Create a single Calendar Client and manage authentication per request 
-export function getCalendarClient(userTokens) {
-    const credentials = { access_token: userTokens.access, refresh_token: userTokens.refresh };
-    authClient.setCredentials(credentials);
+export function getCalendarClient(userCredentials) {
+    authClient.setCredentials(userCredentials);
 
     return google.calendar({ 
         version: 'v3', 

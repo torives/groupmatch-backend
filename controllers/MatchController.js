@@ -64,7 +64,8 @@ class MatchController {
                 })
 
                 if (Object.keys(matchData.answers).length == matchData.participants.length) {
-                    await processMatch(matchData)
+                    const result = await processMatch(matchData)
+                    console.log(result);
                 }
 
             } catch (error) {
@@ -110,32 +111,38 @@ function isRequestValid(req, res) {
 
 
 //TODO: ignorar o tempo da semana que já passou
-function processMatch(matchData) {
-    return new Promise(function (resolve, reject) {
+async function processMatch(matchData) {
 
-        const currentWeek = calendarDAO.getCurrentWeek();
-        /*
-        Obs: no envio do calendario local, já consolida os horarios ocupadas
-        em um evento apenas.
-        Obs²: mandar o calendário com o timezone correto
+    const currentWeek = calendarDAO.currentWeek
 
-        Cria calendário da semana
-
-        Para cada resposta
-            Se positiva
-                Pega o calendário remoto do usuário
-                Mergeia calendário remoto com calendário local ???
-                Adiciona calendario consolidado na lista de calendarios
-
-        Mergeia cada calendário consolidado com o calendário da semana
-
-        Para cada dia da semana
-            cria os horários livres
-            ordena decrescentemente os horários livres por quantidade de tempo
-        
-        Retorna a lista de horários livres
-         */
+    const answers = new Map(Object.entries(matchData.answers));
+    answers.forEach(async (answer, userId) => {
+        if (answer.hasJoined) {
+            const remoteCalendar = await calendarDAO.getCalendar(userId);
+            return remoteCalendar //Test Purposes
+        }
     });
+    /*
+    Obs: no envio do calendario local, já consolida os horarios ocupadas
+    em um evento apenas.
+    Obs²: mandar o calendário com o timezone correto
+
+    Cria calendário da semana
+
+    Para cada resposta
+        Se positiva
+            Pega o calendário remoto do usuário
+            Mergeia calendário remoto com calendário local ???
+            Adiciona calendario consolidado na lista de calendarios
+
+    Mergeia cada calendário consolidado com o calendário da semana
+
+    Para cada dia da semana
+        cria os horários livres
+        ordena decrescentemente os horários livres por quantidade de tempo
+    
+    Retorna a lista de horários livres
+     */
 }
 
 function handleMatchResult(matchData) {
