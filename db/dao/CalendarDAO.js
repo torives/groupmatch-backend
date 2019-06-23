@@ -1,4 +1,10 @@
 import { getCalendarClient } from "../../services/google_service";
+const moment = require('moment-timezone');
+
+const brazilTimezone = moment().tz("America/Sao_Paulo");
+console.log(moment().tz("America/Sao_Paulo").format());
+
+
 
 class CalendarDAO {
     getCalendars(users) {
@@ -27,6 +33,16 @@ class CalendarDAO {
                 reject(error)
             }
         });
+    }
+
+    getCurrentWeek() {
+        const weekStart = brazilTimezone.startOf("isoweek").startOf("day");
+        const weekEnd = brazilTimezone.endOf("isoweek");
+        
+        return {
+            weekStart: weekStart,
+            weekEnd: weekEnd
+        }
     }
 }
 

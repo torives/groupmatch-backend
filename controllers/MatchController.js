@@ -1,5 +1,6 @@
 import { matchDAO } from "../db/dao/MatchDAO";
 import { groupDAO } from "../db/dao/GroupDAO";
+import { calendarDAO } from "../db/dao/CalendarDAO";
 
 const { body, validationResult } = require('express-validator/check');
 
@@ -51,7 +52,7 @@ class MatchController {
                 const match = await matchDAO.getMatch(matchId);
                 const matchData = match.data();
                 const answer = { hasJoined, localCalendar }
-                
+
                 matchData.answers[userId] = answer;
                 matchData.status = "ONGOING";
 
@@ -62,9 +63,9 @@ class MatchController {
                     message: `Successfully registered answer for user: ${userId}`
                 })
 
-                if(matchData.answers.length == matchData.participants.length) {
+                if (Object.keys(matchData.answers).length == matchData.participants.length) {
                     await processMatch(matchData)
-                } 
+                }
 
             } catch (error) {
                 console.log(error);
@@ -111,6 +112,8 @@ function isRequestValid(req, res) {
 //TODO: ignorar o tempo da semana que já passou
 function processMatch(matchData) {
     return new Promise(function (resolve, reject) {
+
+        const currentWeek = calendarDAO.getCurrentWeek();
         /*
         Obs: no envio do calendario local, já consolida os horarios ocupadas
         em um evento apenas.
