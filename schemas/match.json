@@ -30,9 +30,15 @@
                     "$ref": "user.json#/definitions/user_ref"
                 },
                 "answers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/answer"
+                    }
+                },
+                "result": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/answer"
+                        "$ref": "#/definitions/timeSlot"
                     }
                 }
             },
@@ -58,6 +64,21 @@
             "required": [
                 "hasJoined",
                 "localCalendar"
+            ]
+        },
+        "timeSlot": {
+            "type": "object",
+            "properties": {
+                "start": {
+                    "type": "string"
+                },
+                "end": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "start",
+                "end"
             ]
         }
     }
