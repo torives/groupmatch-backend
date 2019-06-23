@@ -44,13 +44,13 @@ class MatchController {
     async addAnswer(req, res) {
         console.log(req);
         const matchId = req.params.matchId;
-        const { userId, has_joined, localCalendar } = req.body;
+        const { userId, hasJoined, localCalendar } = req.body;
 
         if (isRequestValid(req, res)) {
             try {
                 const match = await matchDAO.getMatch(matchId);
                 const matchData = match.data();
-                const answer = { has_joined, localCalendar }
+                const answer = { hasJoined, localCalendar }
                 
                 matchData.answers[userId] = answer;
                 matchData.status = "ONGOING";
@@ -88,7 +88,7 @@ class MatchController {
             case "addAnswer": {
                 return [
                     body("userId").exists().isString(),
-                    body("has_joined").exists().isBoolean(),
+                    body("hasJoined").exists().isBoolean(),
                     body("localCalendar").optional()
                 ]
             }

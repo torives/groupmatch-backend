@@ -7,7 +7,7 @@ class MatchFactory {
 
         const answers = {
             [id]: {
-                has_joined: true,
+                hasJoined: true,
                 localCalendar: localCalendar
             }
         }
