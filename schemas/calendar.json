@@ -1,0 +1,51 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://groupmatch.io/schemas/calendar.json",
+    "title": "Calendar schema",
+    "definitions": {
+        "calendar": {
+            "properties": {
+                "owner": {
+                    "$ref": "user.json#/definitions/user_ref"
+                },
+                "week": {
+                    "type":"object",
+                    "properties": {
+                        "start": {
+                            "type": "string"
+                        },
+                        "end": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/event"
+                    }
+                }
+            },
+            "required": [
+                "owner",
+                "week",
+                "events"
+            ]
+        },
+        "event": {
+            "type": "object",
+            "properties": {
+                "start": {
+                    "type": "string"
+                },
+                "end": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "start",
+                "end"
+            ]
+        }
+    }
+}

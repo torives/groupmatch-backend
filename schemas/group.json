@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://groupmatch.io/schemas/group.json",
+    "title": "Group schema",
+    "definitions": {
+        "group": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user_reference"
+                    }
+                },
+                "admin": {
+                    "$ref": "#/definitions/user_reference"
+                },
+                "currentMatch": {
+                    "type": "string"
+                },
+                "creator": {
+                    "$ref": "#/definitions/user_reference"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "admin",
+                "currentMatch",
+                "creator"
+            ]
+        },
+        "group_ref": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        }
+    }
+}
