@@ -53,14 +53,7 @@ class MatchController {
                 const answer = { has_joined, local_calendar }
                 
                 matchData.answers[userId] = answer;
-
-                if(matchData.answers.length == matchData.participants.length) {
-                    matchData.status = "FINISHED";
-                } else {
-                    matchData.status = "ONGOING";
-                }
-
-                //TODO: Start calendar comparison
+                matchData.status = "ONGOING";
 
                 await matchDAO.updateMatch(matchId, matchData);
 
@@ -68,6 +61,11 @@ class MatchController {
                     success: true,
                     message: `Successfully registered answer for user: ${userId}`
                 })
+
+                if(matchData.answers.length == matchData.participants.length) {
+                    await processMatch(matchData)
+                } 
+
             } catch (error) {
                 console.log(error);
                 res.status(500).send({
@@ -107,6 +105,43 @@ function isRequestValid(req, res) {
         return false
     }
     return true
+}
+
+
+//TODO: ignorar o tempo da semana que já passou
+function processMatch(matchData) {
+    return new Promise(function (resolve, reject) {
+        /*
+        Obs: no envio do calendario local, já consolida os horarios ocupadas
+        em um evento apenas.
+        Obs²: mandar o calendário com o timezone correto
+
+        Cria calendário da semana
+
+        Para cada resposta
+            Se positiva
+                Pega o calendário remoto do usuário
+                Mergeia calendário remoto com calendário local ???
+                Adiciona calendario consolidado na lista de calendarios
+
+        Mergeia cada calendário consolidado com o calendário da semana
+
+        Para cada dia da semana
+            cria os horários livres
+            ordena decrescentemente os horários livres por quantidade de tempo
+        
+        Retorna a lista de horários livres
+         */
+    });
+}
+
+function handleMatchResult(matchData) {
+    /*
+        update match on the database
+        for each participant
+            get deviceToken
+            send push to notify match is finished 
+     */
 }
 
 export const matchController = new MatchController();
