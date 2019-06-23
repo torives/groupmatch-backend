@@ -1,6 +1,6 @@
 class MatchFactory {
     create(group, participants, creator) {
-        const { id, name, local_calendar } = creator
+        const { id, name, localCalendar } = creator
         const _creator = { id, name }
 
         const status = "CREATED"
@@ -8,7 +8,7 @@ class MatchFactory {
         const answers = {
             [id]: {
                 has_joined: true,
-                local_calendar: local_calendar
+                localCalendar: localCalendar
             }
         }
         return {

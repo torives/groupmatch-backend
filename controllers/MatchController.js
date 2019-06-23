@@ -44,13 +44,13 @@ class MatchController {
     async addAnswer(req, res) {
         console.log(req);
         const matchId = req.params.matchId;
-        const { userId, has_joined, local_calendar } = req.body;
+        const { userId, has_joined, localCalendar } = req.body;
 
         if (isRequestValid(req, res)) {
             try {
                 const match = await matchDAO.getMatch(matchId);
                 const matchData = match.data();
-                const answer = { has_joined, local_calendar }
+                const answer = { has_joined, localCalendar }
                 
                 matchData.answers[userId] = answer;
                 matchData.status = "ONGOING";
@@ -89,7 +89,7 @@ class MatchController {
                 return [
                     body("userId").exists().isString(),
                     body("has_joined").exists().isBoolean(),
-                    body("local_calendar").optional()
+                    body("localCalendar").optional()
                 ]
             }
         }
