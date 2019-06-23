@@ -9,7 +9,7 @@
                     "$ref": "user.json#/definitions/user_ref"
                 },
                 "week": {
-                    "type":"object",
+                    "type": "object",
                     "properties": {
                         "start": {
                             "type": "string"

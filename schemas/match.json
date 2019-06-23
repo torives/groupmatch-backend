@@ -57,13 +57,13 @@
                 "hasJoined": {
                     "type": "boolean"
                 },
-                "localCalendar": {
-                    "type": "object"
+                "calendar": {
+                    "$ref": "calendar.json#/definitions/calendar"
                 }
             },
             "required": [
                 "hasJoined",
-                "localCalendar"
+                "calendar"
             ]
         },
         "timeSlot": {
@@ -74,11 +74,15 @@
                 },
                 "end": {
                     "type": "string"
+                },
+                "isBusy": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "start",
-                "end"
+                "end",
+                "isBusy"
             ]
         }
     }
