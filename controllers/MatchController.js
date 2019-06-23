@@ -22,7 +22,7 @@ class MatchController {
 
                     return res.status(200).send({
                         success: true,
-                        message: `Successfully started a new match for group: ${group}`
+                        message: `Successfully started a new match for group: ${group.id}`
                     });
                 } else {
                     return res.status(422).send({
