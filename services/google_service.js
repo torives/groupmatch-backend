@@ -8,20 +8,31 @@ if (fs.existsSync(keyPath)) {
     keys = require(keyPath).web;
 }
 
-
 export const authClient = new google.auth.OAuth2(
     keys.client_id,
     keys.client_secret,
     keys.redirect_uris[0]
 );
 
+function createAuthClient(credentials) {
+    const client = new google.auth.OAuth2(
+        keys.client_id,
+        keys.client_secret,
+        keys.redirect_uris[0]
+    );
+    client.setCredentials(credentials);
+
+    return client
+}
+
+
 //FIXME: what happens when the token expires???
 //TODO: Create a single Calendar Client and manage authentication per request 
 export function getCalendarClient(userCredentials) {
-    authClient.setCredentials(userCredentials);
-
-    return google.calendar({ 
-        version: 'v3', 
+    const authClient = createAuthClient(userCredentials);
+    
+    return google.calendar({
+        version: 'v3',
         auth: authClient
     });
 }

@@ -11,7 +11,7 @@ const eventSearchParameters = {
     timeMin: weekStart.toISOString(),
     timeMax: weekEnd.toISOString(),
     singleEvents: true,
-    orderBy: 'startTime',
+    orderBy: 'startTime'
 }
 
 class CalendarDAO {
@@ -54,11 +54,23 @@ class CalendarDAO {
     async getCalendar(userId) {
         try {
             const user = await userDAO.getUser(userId);
+            console.log(user.id, user.data().email);
             const userCredentials = { access_token: user.data().tokens.access, refresh_token: user.data().tokens.refresh };
             const calendarClient = getCalendarClient(userCredentials);
-
             const events = await calendarClient.events.list(eventSearchParameters);
-            const calendar = createCalendar(events);
+
+            // calendarClient.events.list({
+            //     calendarId: 'primary',
+            //     timeMin: weekStart.toISOString(),
+            //     timeMax: weekEnd.toISOString(),
+            //     singleEvents: true,
+            //     orderBy: 'startTime'
+            // }).then(result =>
+            //     console.log(result)
+            // ).catch(error =>
+            //     console.log(error)
+            // );
+            const calendar = createCalendar(events.data);
 
             return calendar;
         } catch (error) {
