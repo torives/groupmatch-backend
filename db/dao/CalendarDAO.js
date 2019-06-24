@@ -19,47 +19,18 @@ class CalendarDAO {
 
     get currentWeek() {
         return {
-            weekStart: moment(defaultTimezone).startOf("isoweek").startOf("day"),
-            weekEnd: moment(defaultTimezone).endOf("isoweek")
+            start: weekStart.toISOString(true),
+            end: weekEnd.toISOString(true)
         }
     }
-
-    getCalendars(users) {
-        // var remoteCalendars = new Map();
-        // const getCalendarPromises = users.map(user => {
-        //     getCalendar(user)
-        // });
-        // const result = await Promise.all(getCalendarPromises);
-        // console.log(result);
-    }
-
-    // getCurrentWeekEvents(userData) {
-    //     return new Promise(async function (resolve, reject) {
-    //         try {
-    //             const calendarClient = getCalendarClient(userData.tokens);
-    //             const currentWeekEvents = await calendarClient.events.list({
-    //                 calendarId: 'primary',
-    //                 timeMin: (new Date()).toISOString(),
-    //                 maxResults: 10,
-    //                 singleEvents: true,
-    //                 orderBy: 'startTime',
-    //             });
-    //             resolve(currentWeekEvents)
-    //         } catch (error) {
-    //             console.log(error);
-    //             reject(error)
-    //         }
-    //     });
-    // }
 
     async getCalendar(userId) {
         try {
             const user = await userDAO.getUser(userId);
-            console.log(user.id, user.data().email);
             const userCredentials = { access_token: user.data().tokens.access, refresh_token: user.data().tokens.refresh };
             const calendarClient = getCalendarClient(userCredentials);
-            const events = await calendarClient.events.list(eventSearchParameters);
-            const calendar = createCalendar(events.data);
+            const googleCalendarEvents = await calendarClient.events.list(eventSearchParameters);
+            const calendar = formatCalendar(user, this.currentWeek, googleCalendarEvents.data);
 
             return calendar;
         } catch (error) {
@@ -68,9 +39,29 @@ class CalendarDAO {
     }
 }
 
-function createCalendar(events) {
+function formatCalendar(user, week, googleCalendarEvents) {
     //TODO: implementar o map de calendar da CalendarAPI para meu modelo
-    console.log(events);
+    const calendar = {
+        owner: {
+            id: user.id,
+            name: user.data().name
+        },
+        week: {
+            start: week.start,
+            end: week.end
+        }
+    };
+    
+    const events = googleCalendarEvents.items.map(item => { 
+        return { 
+            start: item.start.dateTime,
+            end: item.end.dateTime
+        }
+    });
+
+    calendar.events = events;
+
+    return calendar;
 }
 
 

@@ -43,7 +43,6 @@ class MatchController {
 
     //TODO: check if answer already exists
     async addAnswer(req, res) {
-        console.log(req);
         const matchId = req.params.matchId;
         const { userId, hasJoined, localCalendar } = req.body;
 
@@ -119,6 +118,7 @@ async function processMatch(matchData) {
     answers.forEach(async (answer, userId) => {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
+            console.log(remoteCalendar);
             return remoteCalendar //Test Purposes
         }
     });
