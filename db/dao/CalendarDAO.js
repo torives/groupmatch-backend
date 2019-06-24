@@ -2,14 +2,15 @@ import { getCalendarClient } from "../../services/google_service";
 import { userDAO } from "./UserDAO";
 const moment = require('moment-timezone');
 
-
 const defaultTimezone = moment().tz("America/Sao_Paulo");
-const weekStart = defaultTimezone.startOf("isoweek").startOf("day");
-const weekEnd = defaultTimezone.endOf("isoweek");
+const weekStart = moment(defaultTimezone).startOf("isoweek").startOf("day");
+const weekEnd = moment(defaultTimezone).endOf("isoweek");
+
 const eventSearchParameters = {
     calendarId: 'primary',
-    timeMin: weekStart.toISOString(),
-    timeMax: weekEnd.toISOString(),
+    timeMin: weekStart.toISOString(true),
+    timeMax: weekEnd.toISOString(true),
+    timezone: "America/Sao_Paulo",
     singleEvents: true,
     orderBy: 'startTime'
 }
@@ -18,8 +19,8 @@ class CalendarDAO {
 
     get currentWeek() {
         return {
-            weekStart: defaultTimezone.startOf("isoweek").startOf("day"),
-            weekEnd: defaultTimezone.endOf("isoweek")
+            weekStart: moment(defaultTimezone).startOf("isoweek").startOf("day"),
+            weekEnd: moment(defaultTimezone).endOf("isoweek")
         }
     }
 
@@ -58,18 +59,6 @@ class CalendarDAO {
             const userCredentials = { access_token: user.data().tokens.access, refresh_token: user.data().tokens.refresh };
             const calendarClient = getCalendarClient(userCredentials);
             const events = await calendarClient.events.list(eventSearchParameters);
-
-            // calendarClient.events.list({
-            //     calendarId: 'primary',
-            //     timeMin: weekStart.toISOString(),
-            //     timeMax: weekEnd.toISOString(),
-            //     singleEvents: true,
-            //     orderBy: 'startTime'
-            // }).then(result =>
-            //     console.log(result)
-            // ).catch(error =>
-            //     console.log(error)
-            // );
             const calendar = createCalendar(events.data);
 
             return calendar;
