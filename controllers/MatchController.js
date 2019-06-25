@@ -118,7 +118,11 @@ async function processMatch(matchData) {
     answers.forEach(async (answer, userId) => {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
-            console.log(remoteCalendar);
+            const localCalendar = answer.localCalendar;
+            // const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
+            const userCalendar = mergeCalendars(remoteCalendar, remoteCalendar);
+            
+            console.log(userCalendar);
             return remoteCalendar //Test Purposes
         }
     });
@@ -143,6 +147,39 @@ async function processMatch(matchData) {
     
     Retorna a lista de horários livres
      */
+}
+
+function mergeCalendars(localCalendar, remoteCalendar) {
+    const sortEventsByStartDateAsc = function (lhs, rhs) {
+        return lhs.start < rhs.start ? -1 : lhs.start > rhs.start ? 1 : 0;
+    };
+    var allEvents = localCalendar.events.concat(remoteCalendar.events);
+    var allEvents = allEvents.map(event => {
+        return {
+            start: new Date(event.start), 
+            end: new Date(event.end)
+        };
+    });
+    
+    allEvents.sort(sortEventsByStartDateAsc);
+    /*
+        Ordena eventos por startTime
+        Novo evento = primeiro
+        evento atual = primeiro
+        Enquanto tem próximo na lista
+            Se proximo.start entre atual.start and atual.end
+                Se proximo.end > atual.end
+                    novo.end = proximo.end
+            Senão
+                listaFinal = novoEvento
+                atual = proximo
+                novo evento = atual
+                
+        
+    */
+    for(var event in firstCalendar.events) {
+
+    }
 }
 
 function handleMatchResult(matchData) {
