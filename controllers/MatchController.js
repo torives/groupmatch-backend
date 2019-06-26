@@ -113,9 +113,10 @@ function isRequestValid(req, res) {
 //TODO: ignorar o tempo da semana que já passou
 async function processMatch(matchData) {
 
+    var eventList = [];
     const currentWeek = calendarDAO.currentWeek
-
     const answers = new Map(Object.entries(matchData.answers));
+    
     answers.forEach(async (answer, userId) => {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
@@ -123,10 +124,14 @@ async function processMatch(matchData) {
             // const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
             const userCalendar = mergeCalendars(remoteCalendar, remoteCalendar);
 
+            eventList = mergeEventLists(eventList, userCalendar.events);
+
             console.log(userCalendar);
             return remoteCalendar //Test Purposes
         }
     });
+
+    const matchResult = analyseFreeTime(eventList, currentWeek);
     /*
     Obs: no envio do calendario local, já consolida os horarios ocupadas
     em um evento apenas.
@@ -150,14 +155,23 @@ async function processMatch(matchData) {
      */
 }
 
+function analyseFreeTime(){}
+
 function mergeCalendars(localCalendar, remoteCalendar) {
-    
+
+    var mergedCalendar = Object.assign({}, remoteCalendar); //CUIDADO
+    mergedCalendar.events = mergeEventLists(localCalendar.events, remoteCalendar.events);
+
+    return mergedCalendar
+}
+
+function mergeEventLists(firstList, lastList) {
+
     const sortEventsByStartDateAsc = function (lhs, rhs) {
         return lhs.start.isBefore(rhs.start) ? -1 : lhs.start.isAfter(rhs.start) ? 1 : 0;
     };
 
-    //Aggregate and sort events
-    var allEvents = localCalendar.events.concat(remoteCalendar.events);
+    var allEvents = firstList.concat(lastList);
     var allEvents = allEvents.map(event => {
         return {
             start: moment(event.start),
@@ -165,7 +179,7 @@ function mergeCalendars(localCalendar, remoteCalendar) {
         };
     });
 
-    for(var event of allEvents) {
+    for (var event of allEvents) {
         console.log("///// EVENT /////")
         console.log(event.start.toISOString(true))
         console.log(event.end.toISOString(true))
@@ -173,33 +187,42 @@ function mergeCalendars(localCalendar, remoteCalendar) {
     }
 
     allEvents.sort(sortEventsByStartDateAsc);
-    
+
     console.log("///// AFTER SORT /////\n")
-    for(var event of allEvents) {
+    for (var event of allEvents) {
         console.log("///// EVENT /////")
         console.log(event.start.toISOString(true))
         console.log(event.end.toISOString(true))
         console.log("/////////////////\n")
     }
-    
-    //Start merge
+
+    //If one of the lists is empty, merge is not necessary
+    if (firstList.length == 0 || lastList.length == 0) {
+        return allEvents
+    }
+
+    const mergedEvents = mergeEvents(allEvents)
+
+    return mergedEvents
+}
+
+function mergeEvents(eventList) {
     var newEvent = {
-        start: allEvents[0].start,
-        end: allEvents[0].end
+        start: eventList[0].start,
+        end: eventList[0].end
     }
     var currentEvent;
     var index = 1;
-    var mergedCalendar = Object.assign({}, remoteCalendar); //CUIDADO
-    mergedCalendar.events = [];
-    
-    while(index < allEvents.length) {
-        currentEvent = allEvents[index];
+    const mergedEvents = [];
+
+    while (index < eventList.length) {
+        currentEvent = eventList[index];
         if (currentEvent.start.isBetween(newEvent.start, newEvent.end, null, [])) {
-            if(currentEvent.end.isAfter(newEvent.end)) {
+            if (currentEvent.end.isAfter(newEvent.end)) {
                 newEvent.end = currentEvent.end
             }
         } else {
-            mergedCalendar.events.push(newEvent);
+            mergedEvents.push(newEvent);
             newEvent = {
                 start: currentEvent.start,
                 end: currentEvent.end,
@@ -207,20 +230,7 @@ function mergeCalendars(localCalendar, remoteCalendar) {
         }
         index++;
     }
-    /*
-        Ordena eventos em ordem ascendente de início
-        Evento atual é o primeiro da lista
-        Cria novo evento, com início e fim iguais ao evento atual
-        Para cada próximo evento
-            Se o próximo começa entre o início e o final do atual
-                Se o próximo termina depois do atual
-                    Fim do novo evento == fim do próximo evento
-            Senão
-                Adiciona novo evento na lista de eventos
-                Cria novo evento, com início e fim iguais ao próximo evento
-
-    */
-    return mergedCalendar
+    return mergedEvents
 }
 
 function handleMatchResult(matchData) {
