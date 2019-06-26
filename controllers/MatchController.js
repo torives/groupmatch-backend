@@ -123,11 +123,7 @@ async function processMatch(matchData) {
             const localCalendar = answer.localCalendar;
             // const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
             const userCalendar = mergeCalendars(remoteCalendar, remoteCalendar);
-
             eventList = mergeEventLists(eventList, userCalendar.events);
-
-            console.log(userCalendar);
-            return remoteCalendar //Test Purposes
         }
     });
 
@@ -155,7 +151,42 @@ async function processMatch(matchData) {
      */
 }
 
-function analyseFreeTime(){}
+function analyseFreeTime(eventList, currentWeek){
+    function groupBy(list, keyGetter) {
+        const map = new Map();
+        list.forEach((item) => {
+             const key = keyGetter(item);
+             const collection = map.get(key);
+             if (!collection) {
+                 map.set(key, [item]);
+             } else {
+                 collection.push(item);
+             }
+        });
+        return map;
+    }
+
+    const eventsByDay = groupBy(eventList, event => {
+        moment(event.start).format("YYYY-MM-DD")
+    })
+
+    eventsByDay.forEach((day, dailyEvents) => {
+        
+    })
+    /*
+       Agrupa os eventos por dia
+        Para cada dia da semana
+            Se não tem evento
+                Free slot time é o dia inteiro
+            Senão
+                Para cada evento
+                    Se ele começa no inicio do dia
+                        Tem um freeSlotTime depois do evento
+                    Senão
+                        Tem um freeSlotTime antos do evento
+                        Tem um freeSlotTime depois do evento
+     */
+}
 
 function mergeCalendars(localCalendar, remoteCalendar) {
 
@@ -171,30 +202,8 @@ function mergeEventLists(firstList, lastList) {
         return lhs.start.isBefore(rhs.start) ? -1 : lhs.start.isAfter(rhs.start) ? 1 : 0;
     };
 
-    var allEvents = firstList.concat(lastList);
-    var allEvents = allEvents.map(event => {
-        return {
-            start: moment(event.start),
-            end: moment(event.end)
-        };
-    });
-
-    for (var event of allEvents) {
-        console.log("///// EVENT /////")
-        console.log(event.start.toISOString(true))
-        console.log(event.end.toISOString(true))
-        console.log("/////////////////")
-    }
-
+    const allEvents = firstList.concat(lastList);
     allEvents.sort(sortEventsByStartDateAsc);
-
-    console.log("///// AFTER SORT /////\n")
-    for (var event of allEvents) {
-        console.log("///// EVENT /////")
-        console.log(event.start.toISOString(true))
-        console.log(event.end.toISOString(true))
-        console.log("/////////////////\n")
-    }
 
     //If one of the lists is empty, merge is not necessary
     if (firstList.length == 0 || lastList.length == 0) {
@@ -202,7 +211,6 @@ function mergeEventLists(firstList, lastList) {
     }
 
     const mergedEvents = mergeEvents(allEvents)
-
     return mergedEvents
 }
 
@@ -217,8 +225,8 @@ function mergeEvents(eventList) {
 
     while (index < eventList.length) {
         currentEvent = eventList[index];
-        if (currentEvent.start.isBetween(newEvent.start, newEvent.end, null, [])) {
-            if (currentEvent.end.isAfter(newEvent.end)) {
+        if (moment(currentEvent.start).isBetween(newEvent.start, newEvent.end, null, [])) {
+            if (moment(currentEvent.end).isAfter(newEvent.end)) {
                 newEvent.end = currentEvent.end
             }
         } else {
