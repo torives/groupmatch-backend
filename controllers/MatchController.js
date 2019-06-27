@@ -1,6 +1,7 @@
 import { matchDAO } from "../db/dao/MatchDAO";
 import { groupDAO } from "../db/dao/GroupDAO";
 import { calendarDAO } from "../db/dao/CalendarDAO";
+import { isNullOrUndefined } from "util";
 const moment = require('moment-timezone');
 
 const { body, validationResult } = require('express-validator/check');
@@ -171,7 +172,8 @@ function analyseFreeTime(eventList, currentWeek){
     })
 
     eventsByDay.forEach((day, dailyEvents) => {
-        
+        if(day)
+
     })
     /*
        Agrupa os eventos por dia
@@ -179,14 +181,60 @@ function analyseFreeTime(eventList, currentWeek){
             Se não tem evento
                 Free slot time é o dia inteiro
             Senão
-                Para cada evento
-                    Se ele começa no inicio do dia
-                        Tem um freeSlotTime depois do evento
-                    Senão
-                        Tem um freeSlotTime antos do evento
-                        Tem um freeSlotTime depois do evento
+                Tem um freeSlotTime antes do evento
+                Tem um freeSlotTime depois do evento
+                Adiciona freeSlotTimes na Lista
+                Start do dia = event.end
      */
 }
+
+function calculateFreeSlots(eventsByDate) {
+    
+    const freeSlots = [];
+
+    eventsByDay.forEach((day, events) => {
+        const freeSlotsPerDay = calculateFreeSlotsPerDay(day, events, 0, freeSlots)
+        freeSlots.push(freeSlotsPerDay);
+    })
+
+    //TODO: Ordenação
+    return freeSlots
+}
+
+function calculateFreeSlotsPerDay(day, dailyEvents, index, freeSlots) {
+   
+    if(index >= events.length) {
+        return freeSlots
+    } else {
+        const event = events[index];
+        const newFreeSlots = createFreeSlots(day, event);
+        freeSlots.push(newFreeSlots);
+        day = newFreeSlots.slice(-1).pop();
+        return calculateFreeSlotsPerDay(day, dailyEvents, index++, freeSlots);
+    }
+}
+
+function createFreeSlots(day, event) {
+    const dayStart = moment(day).startOf("day");
+    const dayEnd = moment(day).endOf("day");
+
+    var freeSlots = [];
+    if(moment(event.start).isAfter(dayStart)) {
+        freeSlot = {
+            start: day.start,
+            end: event.end
+        }
+        pus
+    }
+
+
+    const freeSlot = {
+        start: dayStart,
+        end: dayEnd
+    }
+    freeSlots.push(freeSlot);
+}
+
 
 function mergeCalendars(localCalendar, remoteCalendar) {
 
