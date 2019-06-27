@@ -1,5 +1,6 @@
 import { getCalendarClient } from "../../services/google_service";
 import { userDAO } from "./UserDAO";
+import { isNullOrUndefined } from "util";
 const moment = require('moment-timezone');
 
 const defaultTimezone = moment().tz("America/Sao_Paulo");
@@ -51,11 +52,15 @@ function formatCalendar(user, week, googleCalendarEvents) {
             end: week.end
         }
     };
-    
-    const events = googleCalendarEvents.items.map(item => { 
-        return { 
-            start: item.start.dateTime,
-            end: item.end.dateTime
+
+    const events = [];
+    //FIXME: Levar em consideração que eventos "all day" possuem propriedade "date" e n"ao "dateTime"
+    googleCalendarEvents.items.forEach(item => {
+        if (!isNullOrUndefined(item.start.dateTime) && !isNullOrUndefined(item.end.dateTime)) {
+            events.push({
+                start: item.start.dateTime,
+                end: item.end.dateTime
+            });
         }
     });
 

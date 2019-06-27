@@ -26,26 +26,31 @@ export class Match {
    Retorna a lista de horários livres
     */
     static async calculate(matchData) {
-        var events = [];
         const currentWeek = calendarDAO.currentWeek
         const answers = new Map(Object.entries(matchData.answers));
 
-        answers.forEach(async (answer, userId) => {
-            if (answer.hasJoined) {
-                const remoteCalendar = await calendarDAO.getCalendar(userId);
-                const localCalendar = answer.localCalendar;
-                const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
-
-                events = mergeEventLists(events, userCalendar.events);
-            }
-        });
-
+        const events = await consolidateEvents(answers);
         const freeSlots = calculateFreeSlots(events, currentWeek);
 
         //TODO: ordenar os slots
-        const matchResult; //= freeSlots.sort();
-        return matchResult;
+        //const matchResult; //= freeSlots.sort();
+        // return matchResult;
     }
+}
+
+async function consolidateEvents(answers) {
+    var events = [];
+    for (var [userId, answer] of answers) {
+        if (answer.hasJoined) {
+            const remoteCalendar = await calendarDAO.getCalendar(userId);
+            const localCalendar = answer.localCalendar;
+            // const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
+            const userCalendar = mergeCalendars(remoteCalendar, remoteCalendar);
+
+            events = mergeEventLists(events, userCalendar.events);
+        }
+    }
+    return events;
 }
 
 function mergeCalendars(localCalendar, remoteCalendar) {
@@ -59,7 +64,7 @@ function mergeCalendars(localCalendar, remoteCalendar) {
 function mergeEventLists(firstList, lastList) {
 
     const sortEventsByStartDateAsc = function (lhs, rhs) {
-        return lhs.start.isBefore(rhs.start) ? -1 : lhs.start.isAfter(rhs.start) ? 1 : 0;
+        return moment(lhs.start).isBefore(rhs.start) ? -1 : moment(lhs.start).isAfter(rhs.start) ? 1 : 0;
     };
 
     const allEvents = firstList.concat(lastList);
@@ -108,7 +113,8 @@ function calculateFreeSlots(events, currentWeek) {
         var weekEnd = moment(currentWeek.end);
         const eventsGroupedByDay = new Map();
 
-        for (var day = moment(weekStart); day.diff(weekEnd, 'days') <= 0; day.add(1, 'days')) {
+        for (var day = moment(weekStart); day.isBefore(weekEnd, "day") || day.isSame(weekEnd, "day"); day.add(1, 'days')) {
+            console.log(day.toISOString(true));
             eventsGroupedByDay.set(day.format(DATE_FORMAT), []);
         }
 
@@ -121,32 +127,39 @@ function calculateFreeSlots(events, currentWeek) {
     }
 
     const eventsGroupedByDay = groupEventsByDay(events, currentWeek);
-    const freeSlots = [];
+    var freeSlots = [];
 
-    eventsGroupedByDay.forEach((day, events) => {
-        const freeSlotsPerDay = calculateFreeSlotsPerDay(day, events, 0, freeSlots)
-        freeSlots.push(freeSlotsPerDay);
+    eventsGroupedByDay.forEach((events, day) => {
+        const currentDay = {
+            start: moment(day).startOf("day").toISOString(true),
+            end: moment(day).endOf("day").toISOString(true)
+        }
+        const freeSlotsPerDay = calculateFreeSlotsPerDay(currentDay, events, 0, [])
+        freeSlots = freeSlots.concat(freeSlotsPerDay);
+        console.log(freeSlots.length);
     })
 
     return freeSlots
 }
 
-function calculateFreeSlotsPerDay(day, dailyEvents, index, freeSlots) {
+function calculateFreeSlotsPerDay(day, events, index, freeSlots) {
     if (index >= events.length) {
         return freeSlots
     } else {
         const event = events[index];
 
         const newFreeSlots = createFreeSlots(day, event);
-        freeSlots.push(newFreeSlots);
+        freeSlots = freeSlots.concat(newFreeSlots);
 
         day = newFreeSlots.slice(-1).pop();
 
-        return calculateFreeSlotsPerDay(day, dailyEvents, index++, freeSlots);
+        return calculateFreeSlotsPerDay(day, events, ++index, freeSlots);
     }
 }
 
 function createFreeSlots(day, event) {
+    const freeSlots = [];
+
     if (moment(event.start).isAfter(day.start)) {
         const firstSlot = {
             start: day.start,
@@ -156,8 +169,16 @@ function createFreeSlots(day, event) {
             start: event.end,
             end: day.end
         }
-        return [firstSlot, secondSlot]
+        freeSlots.push(firstSlot, secondSlot);
+    } else {
+        const freeSlot = {
+            start: event.end,
+            end: dayEnd
+        }
+        freeSlots.push(freeSlot);
     }
+
+    return freeSlots
 }
 
 
