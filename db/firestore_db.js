@@ -37,6 +37,8 @@ matchesCollection.onSnapshot(snapshot => {
             console.log(matchData);
             if (change.type == "added") {
                 matchListener.onMatchCreated(matchData);
+            } else if (change.type == "modified") {
+                matchListener.onMatchUpdated(matchData);
             }
         }
     });
