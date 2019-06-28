@@ -1,10 +1,13 @@
 import { userDAO } from "./dao/UserDAO";
-import { calendarDAO } from "../db/dao/CalendarDAO"
-import { sendMulticast } from "../services/push_service"
+import { matchDAO } from "../db/dao/MatchDAO";
+import { sendMulticast } from "../services/push_service";
+import { matchesCollection, isSnapshotOutdated } from "../db/firestore_db";
+
 
 class MatchListener {
 
-    async onMatchCreated(match) {
+    async onMatchCreated(matchDoc) {
+        const match = matchDoc.data();
         const userIds = match.participants
             .filter(participant => participant.id != match.creator.id)
             .map(participant => participant.id);
@@ -39,5 +42,19 @@ class MatchListener {
         }
     }
 }
+
+matchesCollection.onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+        const matchData = change.doc.data();
+        if (isSnapshotOutdated(snapshot, change.doc)) {
+            console.log(matchData);
+            if (change.type == "added") {
+                matchListener.onMatchCreated(matchData);
+            } else if (change.type == "modified") {
+                matchListener.onMatchUpdated(matchData);
+            }
+        }
+    });
+});
 
 export const matchListener = new MatchListener();

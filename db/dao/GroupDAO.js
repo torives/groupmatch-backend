@@ -1,8 +1,7 @@
-import { db } from "../firestore_db";
-
-const groupsCollection = db.collection("groups");
+import { groupsCollection } from "../firestore_db";
 
 
+//TODO: Create model classes that wrap Firestore objects
 class GroupDAO {
 
     getGroup(groupId) {

@@ -1,5 +1,7 @@
 import { sendMulticast } from "../services/push_service";
 import { userDAO } from "../db/dao/UserDAO"
+import { groupsCollection, isSnapshotOutdated } from "../db/firestore_db";
+
 
 
 class GroupCreatedListener {
@@ -21,5 +23,15 @@ class GroupCreatedListener {
         });
     }
 }
+
+groupsCollection.onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+        if (change.type == "added" && isSnapshotOutdated(snapshot, change.doc)) {
+            const groupData = change.doc.data();
+            console.log(groupData);
+            groupCreatedListener.onGroupCreated(groupData);
+        }
+    });
+});
 
 export const groupCreatedListener = new GroupCreatedListener();

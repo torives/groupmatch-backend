@@ -1,7 +1,6 @@
-import { db } from "../firestore_db"
+import { matchesCollection } from "../firestore_db"
 import { matchFactory } from "../../models/MatchFactory"
 
-const matchesCollection = db.collection("matches");
 
 //TODO: Create model classes that wrap Firestore objects
 class MatchDAO {

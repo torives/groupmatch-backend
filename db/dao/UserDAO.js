@@ -1,8 +1,7 @@
-import { db } from "../firestore_db";
-
-const usersCollection = db.collection("users");
+import { usersCollection } from "../firestore_db";
 
 
+//TODO: Create model classes that wrap Firestore objects
 class UserDAO {
 
     getUser(userId) {

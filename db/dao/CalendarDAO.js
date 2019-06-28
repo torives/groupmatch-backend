@@ -16,6 +16,7 @@ const eventSearchParameters = {
     orderBy: 'startTime'
 }
 
+//TODO: Create model classes that wrap Firestore objects
 class CalendarDAO {
 
     get currentWeek() {

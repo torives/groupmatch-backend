@@ -1,11 +1,7 @@
 import { exchangeTokens } from "../actions/exchange_tokens";
 import { userDAO } from "../db/dao/UserDAO";
+import { usersCollection, isSnapshotOutdated } from "../db/firestore_db";
 
-
-function canProcessTokens(tokens) {
-    return tokens.access == null &&
-        tokens.auth != null
-}
 class UserCreatedListener {
 
     onUserCreated(userId, tokens) {
@@ -32,5 +28,20 @@ class UserCreatedListener {
         }
     }
 }
+
+function canProcessTokens(tokens) {
+    return tokens.access == null &&
+        tokens.auth != null
+}
+
+usersCollection.onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+        if (change.type == "added" && isSnapshotOutdated(snapshot, change.doc)) {
+            const userData = change.doc.data();
+            console.log(userData);
+            userCreatedListener.onUserCreated(change.doc.id, userData.tokens);
+        }
+    });
+});
 
 export const userCreatedListener = new UserCreatedListener();
