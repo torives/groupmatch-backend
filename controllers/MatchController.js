@@ -53,26 +53,24 @@ class MatchController {
                 const answer = { hasJoined, localCalendar }
 
                 matchData.answers[userId] = answer;
-                matchData.status = "ONGOING";
+                if (Object.keys(matchData.answers).length == matchData.participants.length) {
+                    matchData.status = "FINISHED";
+                } else {
+                    matchData.status = "ONGOING";
+                }
 
                 await matchDAO.updateMatch(matchId, matchData);
 
                 res.status(200).send({
                     success: true,
                     message: `Successfully registered answer for user: ${userId}`
-                })
-
-                if (Object.keys(matchData.answers).length == matchData.participants.length) {
-                    const result = await Match.calculateResult(matchData)
-                    console.log(result);
-                }
-
+                });
             } catch (error) {
                 console.log(error);
                 res.status(500).send({
                     success: false,
                     message: "Failed to register answer"
-                })
+                });
             }
         }
     }

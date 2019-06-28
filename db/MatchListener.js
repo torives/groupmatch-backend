@@ -23,6 +23,21 @@ class MatchListener {
             console.log(`[MatchListener] onMatchCreated failure \n`, error);
         }
     }
+
+    async onMatchUpdated(matchDoc) {
+        const match = matchDoc.data();
+        if (match.status == "FINISHED") {
+            try {
+                const result = await Match.calculateResult(match);
+                matchData.result = result;
+                await matchDAO.updateMatch(matchDoc.id, match);
+
+                //TODO: send push
+            } catch (error) {
+                console.log(`[MatchListener] Failed to calculate match with id: ${matchDoc.id}`, error);
+            }
+        }
+    }
 }
 
 export const matchListener = new MatchListener();
