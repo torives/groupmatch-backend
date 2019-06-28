@@ -42,8 +42,7 @@ async function consolidateEvents(answers) {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
             const localCalendar = answer.localCalendar;
-            // const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
-            const userCalendar = mergeCalendars(remoteCalendar, remoteCalendar);
+            const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
 
             events = mergeEventLists(events, userCalendar.events);
         }
