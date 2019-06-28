@@ -32,9 +32,20 @@ export class Match {
         const events = await consolidateEvents(answers);
         const freeSlots = calculateFreeSlots(events, currentWeek);
 
-        //TODO: ordenar os slots
-        //const matchResult; //= freeSlots.sort();
-        // return matchResult;
+        freeSlots.forEach((dailySlots, day) => { 
+            dailySlots.sort((lhs, rhs) => {
+                function duration(timeSlot) {
+                    return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
+                }
+    
+                const lhsDuration = duration(lhs);
+                const rhsDuration = duration(rhs);
+    
+                return lhsDuration > rhsDuration ? -1 : lhsDuration < rhsDuration ? 1 : 0;
+            });
+        });
+
+        return freeSlots;
     }
 }
 
@@ -127,19 +138,18 @@ function calculateFreeSlots(events, currentWeek) {
     }
 
     const eventsGroupedByDay = groupEventsByDay(events, currentWeek);
-    var freeSlots = [];
-
+    const freeSlotsGroupedByDay = new Map();
+    
     eventsGroupedByDay.forEach((events, day) => {
         const currentDay = {
             start: moment(day).startOf("day").toISOString(true),
             end: moment(day).endOf("day").toISOString(true)
         }
-        const freeSlotsPerDay = calculateFreeSlotsPerDay(currentDay, events, 0, [])
-        freeSlots = freeSlots.concat(freeSlotsPerDay);
-        console.log(freeSlots.length);
+        const currentDayFreeSlots = calculateFreeSlotsPerDay(currentDay, events, 0, [])
+        freeSlotsGroupedByDay.set(day, currentDayFreeSlots)
     })
 
-    return freeSlots
+    return freeSlotsGroupedByDay
 }
 
 function calculateFreeSlotsPerDay(day, events, index, freeSlots) {
