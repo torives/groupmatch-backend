@@ -10,21 +10,6 @@ const DATE_FORMAT = "YYYY-MM-DD";
 //TODO: mandar o calendário com o timezone correto
 
 export class Match {
-    /*
-   Para cada resposta
-       Se positiva
-           Pega o calendário remoto do usuário
-           Mergeia calendário remoto com calendário local
-           Adiciona calendario consolidado na lista de calendarios
-
-   Calcula horários livres
-
-   Para cada dia da semana
-       cria os horários livres
-       ordena decrescentemente os horários livres por quantidade de tempo
-   
-   Retorna a lista de horários livres
-    */
     static async calculate(matchData) {
         const currentWeek = calendarDAO.currentWeek
         const answers = new Map(Object.entries(matchData.answers));
@@ -32,21 +17,25 @@ export class Match {
         const events = await consolidateEvents(answers);
         const freeSlots = calculateFreeSlots(events, currentWeek);
 
-        freeSlots.forEach((dailySlots, day) => { 
-            dailySlots.sort((lhs, rhs) => {
-                function duration(timeSlot) {
-                    return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
-                }
-    
-                const lhsDuration = duration(lhs);
-                const rhsDuration = duration(rhs);
-    
-                return lhsDuration > rhsDuration ? -1 : lhsDuration < rhsDuration ? 1 : 0;
-            });
-        });
+        orderFreeSlots(freeSlots);
 
         return freeSlots;
     }
+}
+
+function orderFreeSlots(freeSlots) {
+    freeSlots.forEach((dailySlots, day) => {
+        dailySlots.sort((lhs, rhs) => {
+            function duration(timeSlot) {
+                return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
+            }
+
+            const lhsDuration = duration(lhs);
+            const rhsDuration = duration(rhs);
+
+            return lhsDuration > rhsDuration ? -1 : lhsDuration < rhsDuration ? 1 : 0;
+        });
+    });
 }
 
 async function consolidateEvents(answers) {
@@ -139,7 +128,7 @@ function calculateFreeSlots(events, currentWeek) {
 
     const eventsGroupedByDay = groupEventsByDay(events, currentWeek);
     const freeSlotsGroupedByDay = new Map();
-    
+
     eventsGroupedByDay.forEach((events, day) => {
         const currentDay = {
             start: moment(day).startOf("day").toISOString(true),
