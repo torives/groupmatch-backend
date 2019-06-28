@@ -10,7 +10,7 @@ const DATE_FORMAT = "YYYY-MM-DD";
 //TODO: mandar o calendário com o timezone correto
 
 export class Match {
-    static async calculate(matchData) {
+    static async calculateResult(matchData) {
         const currentWeek = calendarDAO.currentWeek
         const answers = new Map(Object.entries(matchData.answers));
 
@@ -24,17 +24,15 @@ export class Match {
 }
 
 function orderFreeSlots(freeSlots) {
-    freeSlots.forEach((dailySlots, day) => {
-        dailySlots.sort((lhs, rhs) => {
-            function duration(timeSlot) {
-                return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
-            }
+    function duration(timeSlot) {
+        return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
+    }
 
-            const lhsDuration = duration(lhs);
-            const rhsDuration = duration(rhs);
+    freeSlots.sort((lhs, rhs) => {
+        const lhsDuration = duration(lhs);
+        const rhsDuration = duration(rhs);
 
-            return lhsDuration > rhsDuration ? -1 : lhsDuration < rhsDuration ? 1 : 0;
-        });
+        return lhsDuration > rhsDuration ? -1 : lhsDuration < rhsDuration ? 1 : 0;
     });
 }
 
@@ -127,7 +125,7 @@ function calculateFreeSlots(events, currentWeek) {
     }
 
     const eventsGroupedByDay = groupEventsByDay(events, currentWeek);
-    const freeSlotsGroupedByDay = new Map();
+    var freeSlots = [];
 
     eventsGroupedByDay.forEach((events, day) => {
         const currentDay = {
@@ -135,10 +133,10 @@ function calculateFreeSlots(events, currentWeek) {
             end: moment(day).endOf("day").toISOString(true)
         }
         const currentDayFreeSlots = calculateFreeSlotsPerDay(currentDay, events, 0, [])
-        freeSlotsGroupedByDay.set(day, currentDayFreeSlots)
-    })
+        freeSlots = freeSlots.concat(currentDayFreeSlots);
+    });
 
-    return freeSlotsGroupedByDay
+    return freeSlots;
 }
 
 function calculateFreeSlotsPerDay(day, events, index, freeSlots) {

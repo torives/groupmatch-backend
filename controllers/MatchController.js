@@ -63,7 +63,7 @@ class MatchController {
                 })
 
                 if (Object.keys(matchData.answers).length == matchData.participants.length) {
-                    const result = await Match.calculate(matchData)
+                    const result = await Match.calculateResult(matchData)
                     console.log(result);
                 }
 

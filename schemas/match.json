@@ -74,15 +74,11 @@
                 },
                 "end": {
                     "type": "string"
-                },
-                "isBusy": {
-                    "type": "boolean"
                 }
             },
             "required": [
                 "start",
-                "end",
-                "isBusy"
+                "end"
             ]
         }
     }
