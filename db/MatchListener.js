@@ -35,12 +35,20 @@ class MatchListener {
                 matchData.result = result;
                 await matchDAO.updateMatch(matchDoc.id, match);
 
+                const userIds = match.participants.map(participant => participant.id);
+                const deviceTokens = await getDeviceTokens(userIds);
+
                 //TODO: send push
             } catch (error) {
                 console.log(`[MatchListener] Failed to calculate match with id: ${matchDoc.id}`, error);
             }
         }
     }
+}
+
+async function getDeviceTokens(userIds) {
+    const users = await userDAO.getUsers(userIds);
+    return users.map(user => user.data().tokens.device);
 }
 
 matchesCollection.onSnapshot(snapshot => {
