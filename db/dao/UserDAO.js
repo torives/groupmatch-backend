@@ -1,4 +1,5 @@
 import { usersCollection } from "../firestore_db";
+import { userCreatedListener } from "../UserCreatedListener";
 
 
 //TODO: Create model classes that wrap Firestore objects

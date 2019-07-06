@@ -1,4 +1,5 @@
 import { groupsCollection } from "../firestore_db";
+import groupListener from "../GroupCreatedListener"
 
 
 //TODO: Create model classes that wrap Firestore objects

@@ -1,5 +1,6 @@
 import { matchesCollection } from "../firestore_db"
 import { matchFactory } from "../../models/MatchFactory"
+import { matchListener } from "../MatchListener"
 
 
 //TODO: Create model classes that wrap Firestore objects
