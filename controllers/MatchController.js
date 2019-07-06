@@ -1,6 +1,6 @@
 import { matchDAO } from "../db/dao/MatchDAO";
 import { groupDAO } from "../db/dao/GroupDAO";
-import { Match } from "../actions/Match";
+
 
 const { body, validationResult } = require('express-validator/check');
 
@@ -9,13 +9,12 @@ class MatchController {
 
     async createMatch(req, res) {
         const matchData = req.body;
-        console.log(matchData);
 
         if (isRequestValid(req, res)) {
             try {
                 const group = await groupDAO.getGroup(matchData.group.id);
                 const groupData = group.data();
-                console.log(groupData);
+
                 if (groupData.current_match == null) {
                     const matchId = await matchDAO.createMatch(matchData);
                     groupData.current_match = matchId;

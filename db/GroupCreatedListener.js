@@ -3,7 +3,6 @@ import { userDAO } from "../db/dao/UserDAO"
 import { groupsCollection, isSnapshotOutdated } from "../db/firestore_db";
 
 
-
 class GroupCreatedListener {
 
     onGroupCreated(group) {
