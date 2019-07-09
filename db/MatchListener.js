@@ -6,8 +6,7 @@ import { matchesCollection, isSnapshotOutdated } from "../db/firestore_db";
 
 class MatchListener {
 
-    async onMatchCreated(matchDoc) {
-        const match = matchDoc.data();
+    async onMatchCreated(match) {
         const userIds = match.participants
             .filter(participant => participant.id != match.creator.id)
             .map(participant => participant.id);
@@ -27,20 +26,23 @@ class MatchListener {
         }
     }
 
-    async onMatchUpdated(matchDoc) {
-        const match = matchDoc.data();
+    async onMatchUpdated(match) {
         if (match.status == "FINISHED") {
             try {
                 const result = await Match.calculateResult(match);
                 matchData.result = result;
-                await matchDAO.updateMatch(matchDoc.id, match);
+                await matchDAO.updateMatch(match.id, match);
 
                 const userIds = match.participants.map(participant => participant.id);
                 const deviceTokens = await getDeviceTokens(userIds);
 
-                //TODO: send push
+                sendMulticast(
+                    `${match.group.name}: Fim do Match!`,
+                    `Deseja ver o resultado?`,
+                    deviceTokens
+                )
             } catch (error) {
-                console.log(`[MatchListener] Failed to calculate match with id: ${matchDoc.id}`, error);
+                console.log(`[MatchListener] Failed to calculate match with id: ${match.id}`, error);
             }
         }
     }
