@@ -111,7 +111,6 @@ function calculateFreeSlots(events, currentWeek) {
         const eventsGroupedByDay = new Map();
 
         for (var day = moment(weekStart); day.isBefore(weekEnd, "day") || day.isSame(weekEnd, "day"); day.add(1, 'days')) {
-            console.log(day.toISOString(true));
             eventsGroupedByDay.set(day.format(DATE_FORMAT), []);
         }
 
@@ -169,7 +168,7 @@ function createFreeSlots(day, event) {
     } else {
         const freeSlot = {
             start: event.end,
-            end: dayEnd
+            end: day.end
         }
         freeSlots.push(freeSlot);
     }

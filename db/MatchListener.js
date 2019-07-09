@@ -2,6 +2,7 @@ import { userDAO } from "./dao/UserDAO";
 import { matchDAO } from "../db/dao/MatchDAO";
 import { sendMulticast } from "../services/push_service";
 import { matchesCollection, isSnapshotOutdated } from "../db/firestore_db";
+import { Match } from "../actions/Match";
 
 
 class MatchListener {
