@@ -7,7 +7,8 @@ import { Match } from "../actions/Match";
 
 class MatchListener {
 
-    async onMatchCreated(match) {
+    async onMatchCreated(matchDoc) {
+        const match = matchDoc.data();
         const userIds = match.participants
             .filter(participant => participant.id != match.creator.id)
             .map(participant => participant.id);
@@ -27,23 +28,20 @@ class MatchListener {
         }
     }
 
-    async onMatchUpdated(match) {
+    async onMatchUpdated(matchDoc) {
+        const match = matchDoc.data();
         if (match.status == "FINISHED") {
             try {
                 const result = await Match.calculateResult(match);
                 matchData.result = result;
-                await matchDAO.updateMatch(match.id, match);
+                await matchDAO.updateMatch(matchDoc.id, match);
 
                 const userIds = match.participants.map(participant => participant.id);
                 const deviceTokens = await getDeviceTokens(userIds);
 
-                sendMulticast(
-                    `${match.group.name}: Fim do Match!`,
-                    `Deseja ver o resultado?`,
-                    deviceTokens
-                )
+                //TODO: send push
             } catch (error) {
-                console.log(`[MatchListener] Failed to calculate match with id: ${match.id}`, error);
+                console.log(`[MatchListener] Failed to calculate match with id: ${matchDoc.id}`, error);
             }
         }
     }
