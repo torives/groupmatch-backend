@@ -175,13 +175,3 @@ function createFreeSlots(day, event) {
 
     return freeSlots
 }
-
-
-function handleMatchResult(matchData) {
-    /*
-        update match on the database
-        for each participant
-            get deviceToken
-            send push to notify match is finished 
-     */
-}

@@ -29,17 +29,21 @@ class MatchListener {
     }
 
     async onMatchUpdated(matchDoc) {
-        const match = matchDoc.data();
-        if (match.status == "FINISHED") {
+        const matchData = matchDoc.data();
+        if (matchData.status == "FINISHED") {
             try {
-                const result = await Match.calculateResult(match);
+                const result = await Match.calculateResult(matchData);
                 matchData.result = result;
-                await matchDAO.updateMatch(matchDoc.id, match);
+                await matchDAO.updateMatch(matchDoc.id, matchData);
 
-                const userIds = match.participants.map(participant => participant.id);
+                const userIds = matchData.participants.map(participant => participant.id);
                 const deviceTokens = await getDeviceTokens(userIds);
 
-                //TODO: send push
+                sendMulticast(
+                    `${matchData.group.name}: Fim do Match!`,
+                    `Deseja ver o resultado?`,
+                    deviceTokens
+                )
             } catch (error) {
                 console.log(`[MatchListener] Failed to calculate match with id: ${matchDoc.id}`, error);
             }
@@ -54,13 +58,12 @@ async function getDeviceTokens(userIds) {
 
 matchesCollection.onSnapshot(snapshot => {
     snapshot.docChanges().forEach(change => {
-        const matchData = change.doc.data();
+        const match = change.doc;
         if (isSnapshotOutdated(snapshot, change.doc)) {
-            console.log(matchData);
             if (change.type == "added") {
-                matchListener.onMatchCreated(matchData);
+                matchListener.onMatchCreated(match);
             } else if (change.type == "modified") {
-                matchListener.onMatchUpdated(matchData);
+                matchListener.onMatchUpdated(match);
             }
         }
     });
