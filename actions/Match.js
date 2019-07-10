@@ -41,9 +41,12 @@ async function consolidateEvents(answers) {
     for (var [userId, answer] of answers) {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
-            normalizeRemoteCalendar(remoteCalendar);
+            normalizeCalendar(remoteCalendar);
 
-            const userCalendar = mergeCalendars(answer.localCalendar, remoteCalendar);
+            const localCalendar = answer.localCalendar;
+            normalizeCalendar(localCalendar);
+
+            const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
 
             events = mergeEventLists(events, userCalendar.events);
         }
@@ -51,7 +54,7 @@ async function consolidateEvents(answers) {
     return events;
 }
 
-function normalizeRemoteCalendar(remoteCalendar) {
+function normalizeCalendar(remoteCalendar) {
     const normalizedEvents = []
     
     remoteCalendar.events.forEach(event => {
@@ -60,11 +63,17 @@ function normalizeRemoteCalendar(remoteCalendar) {
                 start: event.start,
                 end: moment(event.start).endOf("day").toISOString(true)
             }
-            const secondEvent = {
-                start: moment(event.end).startOf("day").toISOString(true),
-                end: event.end
+            normalizedEvents.push(firstEvent);
+
+            const start = moment(event.end).startOf("day").toISOString(true);
+            const end = event.end;
+            if(!moment(start).isSame(end)) {
+                const secondEvent = {
+                    start: start,
+                    end: end
+                }
+                normalizedEvents.push(secondEvent);
             }
-            normalizedEvents.push(firstEvent, secondEvent);
         } else {
             normalizedEvents.push(event);
         }
