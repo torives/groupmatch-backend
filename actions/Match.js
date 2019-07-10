@@ -130,25 +130,30 @@ function calculateFreeSlots(events, currentWeek) {
             start: moment(day).startOf("day").toISOString(true),
             end: moment(day).endOf("day").toISOString(true)
         }
-        const currentDayFreeSlots = calculateFreeSlotsPerDay(currentDay, events, 0, [])
+        const currentDayFreeSlots = calculateFreeSlotsPerDay(currentDay, events.slice(), [])
         freeSlots = freeSlots.concat(currentDayFreeSlots);
     });
 
     return freeSlots;
 }
 
-function calculateFreeSlotsPerDay(day, events, index, freeSlots) {
-    if (index >= events.length) {
+function calculateFreeSlotsPerDay(day, events, freeSlots) {
+    if (events.length == 0) { //if there are no more events, we´re done
+        freeSlots.push(day);
         return freeSlots
     } else {
-        const event = events[index];
+        const event = events.shift(); //Grabs the first event
 
-        const newFreeSlots = createFreeSlots(day, event);
-        freeSlots = freeSlots.concat(newFreeSlots);
+        const newFreeSlots = createFreeSlots(day, event); //Calculates freeSlots for the event
+        if(newFreeSlots.length == 0){ //If there´s no free slots anymore, this day is complete
+            return freeSlots;
+        } else if(newFreeSlots.length == 2) { // if there´s 2 free slots, add the first to the final list
+            freeSlots.push(newFreeSlots.shift());
+        }
 
-        day = newFreeSlots.slice(-1).pop();
+        day = newFreeSlots.pop(); //the second or only free slot is the remaining free time of the day
 
-        return calculateFreeSlotsPerDay(day, events, ++index, freeSlots);
+        return calculateFreeSlotsPerDay(day, events, freeSlots); //Compare the remaining free time of the day with the rest of the events
     }
 }
 
@@ -165,7 +170,7 @@ function createFreeSlots(day, event) {
             end: day.end
         }
         freeSlots.push(firstSlot, secondSlot);
-    } else {
+    } else if(moment(event.end).isBefore(day.end)){
         const freeSlot = {
             start: event.end,
             end: day.end
