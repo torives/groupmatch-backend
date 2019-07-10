@@ -41,13 +41,36 @@ async function consolidateEvents(answers) {
     for (var [userId, answer] of answers) {
         if (answer.hasJoined) {
             const remoteCalendar = await calendarDAO.getCalendar(userId);
-            const localCalendar = answer.localCalendar;
-            const userCalendar = mergeCalendars(localCalendar, remoteCalendar);
+            normalizeRemoteCalendar(remoteCalendar);
+
+            const userCalendar = mergeCalendars(answer.localCalendar, remoteCalendar);
 
             events = mergeEventLists(events, userCalendar.events);
         }
     }
     return events;
+}
+
+function normalizeRemoteCalendar(remoteCalendar) {
+    const normalizedEvents = []
+    
+    remoteCalendar.events.forEach(event => {
+        if(!moment(event.start).isSame(event.end, "day")){
+            const firstEvent = {
+                start: event.start,
+                end: moment(event.start).endOf("day").toISOString(true)
+            }
+            const secondEvent = {
+                start: moment(event.end).startOf("day").toISOString(true),
+                end: event.end
+            }
+            normalizedEvents.push(firstEvent, secondEvent);
+        } else {
+            normalizedEvents.push(event);
+        }
+    });
+
+    remoteCalendar.events = normalizedEvents;
 }
 
 function mergeCalendars(localCalendar, remoteCalendar) {
