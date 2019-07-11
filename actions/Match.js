@@ -25,7 +25,7 @@ export class Match {
 
 function orderFreeSlots(freeSlots) {
     function duration(timeSlot) {
-        return moment(timeSlot.end).diff(moment(timeSlot.start), "hours");
+        return moment(timeSlot.end).diff(moment(timeSlot.start), "seconds");
     }
 
     freeSlots.sort((lhs, rhs) => {
@@ -171,7 +171,9 @@ function calculateFreeSlots(events, currentWeek) {
 
 function calculateFreeSlotsPerDay(day, events, freeSlots) {
     if (events.length == 0) { //if there are no more events, we´re done
-        freeSlots.push(day);
+        if(!moment(day.start).isSame(day.end)) {
+            freeSlots.push(day);
+        }
         return freeSlots
     } else {
         const event = events.shift(); //Grabs the first event
