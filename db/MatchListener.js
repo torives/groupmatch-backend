@@ -30,7 +30,7 @@ class MatchListener {
 
     async onMatchUpdated(matchDoc) {
         const matchData = matchDoc.data();
-        if (matchData.status == "FINISHED") {
+        if (matchData.status == "FINISHED" && matchData.result == null) {
             try {
                 const result = await Match.calculateResult(matchData);
                 matchData.result = result;
