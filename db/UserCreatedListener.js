@@ -9,7 +9,6 @@ class UserCreatedListener {
         if (canProcessTokens(tokens)) {
             exchangeTokens(tokens.auth).then(tokens => {
                 const [ accessToken, refreshToken ] = tokens;
-                console.log(`Success: obtained access: ${accessToken} and refresh: ${refreshToken} tokens for user: ${userId}`)
                 const userData = {
                     tokens: {
                         "access": accessToken,
@@ -18,7 +17,7 @@ class UserCreatedListener {
                 }
                 userDAO.updateUser(userId, userData)
                     .then(result => {
-                        console.log(`Success: updated user: ${userId} with access and refresh tokens`, result);
+                        console.log(`Success: updated user: ${userId} with access and refresh tokens\n`, result);
                     }).catch(error => {
                         console.log(`Failure: failed to update user: ${userId} tokens`, error);
                     });
@@ -38,7 +37,6 @@ usersCollection.onSnapshot(snapshot => {
     snapshot.docChanges().forEach(change => {
         if (change.type == "added" && isSnapshotOutdated(snapshot, change.doc)) {
             const userData = change.doc.data();
-            console.log(userData);
             userCreatedListener.onUserCreated(change.doc.id, userData.tokens);
         }
     });
